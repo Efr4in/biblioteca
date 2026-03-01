@@ -7,9 +7,9 @@ $disponible=$_POST['disponible'];
 $categoria=$_POST['categoria'];
 $subcategoria=$_POST['subcategoria'];
 $proveedor=$_POST['proveedor']; 
-$descarga=$_POST['descarga']; 
+//$descarga=$_POST['descarga']; 
 $fecha = date("Y-m-d");
- 
+
 //$rutaEnServidor='images';
 //$rutaTemporal=$_FILES['foto']['tmp_name'];
 //$nombreImagen=$_FILES['foto']['name'];

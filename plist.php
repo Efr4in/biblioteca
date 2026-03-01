@@ -81,7 +81,7 @@ $nro_reg=mysqli_num_rows($consulta);
 				
 				<!--Cuadros con los libros obtenidos de la base de datos-->
                 <div class="features_items">
-				<h2 class="title text-center">Libros mas Descargados</h2>
+				<h2 class="title text-center">Libros mas vistos</h2>
 
         <?php
         if (isset($_GET['cat'])) {
@@ -133,7 +133,7 @@ $nro_reg=mysqli_num_rows($consulta);
 						<img src="admin/<?php echo $foto ?>" width="150" heigth="150">
 									<p><?php echo $nombre ?></p>
 									<a href="admin/pdf/archivo.php?id=<?php echo $filas['id_libro']?>" class="btn btn-default add-to-cart">
-									<i class="fa fa-download"></i>Ver y Descargar</a>
+									<i class="fa fa-download"></i>Ver</a>
                                      </div>
 								</div>
 					    </div>

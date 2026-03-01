@@ -1,5 +1,3 @@
-
- 
 <?php
 session_start();
 include("conexion.php");
@@ -9,9 +7,6 @@ if(isset($_SESSION['user']))
 <?php 
 $consulta1="select id_categoria, nombre_categoria from categorias";
 $categoria=mysqli_query($con, $consulta1);
-
-$consulta2="select id_proveedor, nombre_proveedor from proveedor";
-$proveedor=mysqli_query($con, $consulta2);
 
 $consulta3="select id_subcategoria, nombre_subcategoria from subcategorias";
 $subcategoria=mysqli_query($con, $consulta3);
@@ -86,7 +81,8 @@ $subcategoria=mysqli_query($con, $consulta3);
               <button type="button" class="close" style="color:white; font-size: 20px;" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title" style="color:white;" id="myModalLabel"><b>Mantenimiento de Libros</b></h4>
             </div>
-            <form id="formulario" class="form-group" onsubmit="return agregaLibro();">
+            <!-- PARA PONER LAS PORTADAS DE LOS LIBROS -->
+            <form id="formulario" class="form-group" enctype="multipart/form-data" onsubmit="return agregaLibro();">
             <div class="modal-body">
                 <table border="0" width="100%">
                      <tr>
@@ -97,8 +93,11 @@ $subcategoria=mysqli_query($con, $consulta3);
                         <td><input type="text" class="form-control" required readonly id="pro" name="pro"/></td>
                     </tr>
                     <tr>
-                        <td>Foto: </td>
-                        <td><input type="text" class="form-control" required name="foto" id="foto" maxlength="100"/></td>
+                    <td>Foto: </td>
+                        <td>
+                            <input type="file" class="form-control" name="foto" id="foto" accept="image/png, image/jpeg, image/jpg, image/webp" required/>
+                            <small>Formatos: PNG, JPG, JPEG, WEBP</small>
+                        </td>
                     </tr>
                     <tr>
                         <td>Nombre: </td>
@@ -108,14 +107,26 @@ $subcategoria=mysqli_query($con, $consulta3);
                         <td>Descripcion: </td>
                         <td><input type="text" class="form-control" required name="descripcion" id="descripcion" maxlength="100"/></td>
                     </tr>
+                    <!-- AUTOR PARA PODER TENER MEJOR RESULTADOS DE BUSQ -->
+                    <tr>
+                        <td>Autor:</td>
+                        <td><input type="text" name="autor" class="form-control" id="autor" placeholder="Ej: Gabriel García Márquez o Unidad Educativa Privada Boliviano Holandés" required /></td>
+                    </tr>
                     <tr>
                         <td>Disponible: </td>
-                        <td><input type="text" class="form-control" required name="disponible" id="disponible" maxlength="100"/></td>
+                        <td>
+                            <label style="margin-right: 20px;">
+                                <input type="radio" name="disponible" value="si" checked required> Sí
+                            </label>
+                            <label>
+                                <input type="radio" name="disponible" value="no"> No
+                            </label>
+                        </td>
                     </tr>
                     <tr>
                         <td>Categoria:</td>
                       <td>
-                      <select name="categoria" id="categoria" class="form-control" requerid>
+                      <select name="categoria" id="categoria" class="form-control" required>
                       <?php 
                       while($fila=mysqli_fetch_row($categoria)){
                       echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
@@ -127,7 +138,7 @@ $subcategoria=mysqli_query($con, $consulta3);
                       <tr>
                         <td>Subcategoria:</td>
                       <td>
-                      <select name="subcategoria" id="subcategoria" class="form-control" requerid>
+                      <select name="subcategoria" id="subcategoria" class="form-control" required>
                       <?php 
                       while($fila=mysqli_fetch_row($subcategoria)){
                       echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
@@ -136,18 +147,16 @@ $subcategoria=mysqli_query($con, $consulta3);
                      </select>
                       </td>
                     </tr>
+                    
                      <tr>
                         <td>Proveedor:</td>
-                      <td>
-                      <select name="proveedor" id="proveedor" class="form-control" requerid>
-                      <?php 
-                      while($fila2=mysqli_fetch_row($proveedor)){
-                      echo "<option value='".$fila2['0']."'>".$fila2['1']."</option>";
-                      }
-                      ?>
-                     </select>
-                      </td>
+                        <td>
+                            <input type="text" class="form-control" name="proveedor" id="proveedor" 
+                                   placeholder="Ej: Libre acceso, Contenido propio, Unidad Educativa..." 
+                                   maxlength="150" required />
+                        </td>
                     </tr>
+                    
                     <tr>
                         <td>Fecha Ingreso: </td>
                         <td><input type="date" class="form-control" required name="fecha" id="fecha"/></td>

@@ -1,4 +1,5 @@
 $(document).ready(pagination(1));
+
 $(function(){
 	$('#bd-desde').on('change', function(){
 		var desde = $('#bd-desde').val();
@@ -43,22 +44,28 @@ $(function(){
 	
 });
 
+// FUNCIÓN PRINCIPAL PARA AGREGAR LIBRO
 function agregaLibro(){
 	var url = 'libros/agrega_libro.php';
+	var formData = new FormData(document.getElementById('formulario'));
+	
 	$.ajax({
 		type:'POST',
 		url:url,
-		data:$('#formulario').serialize(),
+		data: formData,
+		processData: false,
+		contentType: false,
+		cache: false,
 		success: function(registro){
 			if ($('#pro').val() == 'Registro'){
-			$('#formulario')[0].reset();
-			$('#mensaje').addClass('bien').html('Registro completado con exito').show(200).delay(2500).hide(200);
-			$('#agrega-registros').html(registro);
-			return false;
+				$('#formulario')[0].reset();
+				$('#mensaje').addClass('bien').html('Registro completado con exito').show(200).delay(2500).hide(200);
+				$('#agrega-registros').html(registro);
+				return false;
 			}else{
-			$('#mensaje').addClass('bien').html('Edicion completada con exito').show(200).delay(2500).hide(200);
-			$('#agrega-registros').html(registro);
-			return false;
+				$('#mensaje').addClass('bien').html('Edicion completada con exito').show(200).delay(2500).hide(200);
+				$('#agrega-registros').html(registro);
+				return false;
 			}
 		}
 	});
@@ -97,15 +104,16 @@ function editarLibro(id){
 				$('#edi').show();
 				$('#pro').val('Edicion');
 				$('#id-prod').val(id);
-				$('#foto').val(datos[0]);
+				// NO establecer valor de foto - input file no lo permite por seguridad
 				$('#nombre').val(datos[1]);
 				$('#descripcion').val(datos[2]);
-				$('#disponible').val(datos[3]);
-				$('#categoria').val(datos[4]);
-				$('#subcategoria').val(datos[5]);
-				$('#proveedor').val(datos[6]);
-				$('#fecha').val(datos[7]);
-				$('#descarga').val(datos[8]);
+				$('#autor').val(datos[3]);
+				$('#disponible').val(datos[4]);
+				$('#categoria').val(datos[5]);
+				$('#subcategoria').val(datos[6]);
+				$('#proveedor').val(datos[7]);
+				$('#fecha').val(datos[8]);
+				$('#descarga').val(datos[9]);
 				$('#registra-producto').modal({
 					show:true,
 					backdrop:'static'

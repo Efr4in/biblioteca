@@ -103,7 +103,7 @@ if ($nro_reg==0){
 											<img src="admin/<?php echo $foto ?>" width="150" heigth="150">
 											
 													<p><?php echo $nombre ?></p>
-												<a href="admin/pdf/archivo.php?id=<?php echo $filas['id_libro']?>" class="btn btn-default add-to-cart"><i class="fa fa-download"></i>Ver y Descargar</a>
+												<a href="admin/pdf/archivo.php?id=<?php echo $filas['id_libro']?>" class="btn btn-default add-to-cart"><i class="fa fa-download"></i>Ver</a>
 											</div>
 										</div>
 								</div>

@@ -62,19 +62,25 @@ if(isset($_SESSION['user']))
                      <h2>Listado de Copias de Seguridad</h2>
                 <?php
                 $listar = null;
+                $archivos = array();
+
+                // Primero leer todos los archivos en un array
                 $directorio = opendir("backup/backup/");
-                while ($elemento = readdir($directorio))
-                {
-                  if($elemento != '.' && $elemento != '..'){
-                        if (is_dir("backup/backup.$elemento")){
-                         $listar .= "<li><a href='backup/backup/$elemento' target='_blank'>$elemento</a></li>";
-                        }
-                        else{
-                         $listar .= "<li><a href='backup/backup/$elemento' target='_blank'>$elemento</a></li>";
-                            }
-                  }
+                while ($elemento = readdir($directorio)) {
+                    if($elemento != '.' && $elemento != '..') {
+                        $archivos[] = $elemento;
+                    }
                 }
-                  ?>
+                closedir($directorio);
+
+                // Ordenar de más reciente a más antiguo (Z-A alfabéticamente)
+                rsort($archivos);
+
+                // Ahora generar la lista HTML ordenada
+                foreach($archivos as $elemento) {
+                    $listar .= "<li><a href='backup/backup/$elemento' target='_blank'>$elemento</a></li>";
+                }
+                ?>
                       <ul>
                       <?php echo $listar ?>
                       </ul>

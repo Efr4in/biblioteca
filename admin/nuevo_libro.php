@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include("conexion.php");
@@ -7,13 +6,10 @@ if(isset($_SESSION['user']))
 
 <?php 
 $consulta1="select id_categoria, nombre_categoria from categorias";
-$categoria=mysql_query($consulta1);
-
-$consulta2="select id_proveedor, nombre_proveedor from proveedor";
-$proveedor=mysql_query($consulta2);
+$categoria=mysqli_query($con, $consulta1);
 
 $consulta3="select id_subcategoria, nombre_subcategoria from subcategorias";
-$subcategoria=mysql_query($consulta3);
+$subcategoria=mysqli_query($con, $consulta3);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,15 +65,27 @@ $subcategoria=mysql_query($consulta3);
              <td>Descripcion</td>
             <td><input type="text" name="descripcion" class="form-control" id="descripcion"  required /></td>
         </tr>
+            <!-- AUTOR PARA PODER TENER MEJOR RESULTADOS DE BUSQ -->
+        <tr>
+             <td>Autor</td>
+             <td><input type="text" name="autor" class="form-control" id="autor" placeholder="Ej: Gabriel García Márquez o Unidad Educativa Privada Boliviano Holandés" required /></td>
+        </tr>
         <tr>
              <td>Disponible</td>
-             <td><input type="text" name="disponible" class="form-control" id="disponible"  required /></td>
+             <td>
+                <label style="margin-right: 20px;">
+                    <input type="radio" name="disponible" value="si" checked required> Sí
+                </label>
+                <label>
+                    <input type="radio" name="disponible" value="no"> No
+                </label>
+             </td>
         </tr>
         <tr>
              <td>Categoria:</td>
-                <td><select name="categoria" id="categoria" class="form-control" class="form-control" requerid>
+                <td><select name="categoria" id="categoria" class="form-control" required>
                       <?php 
-                      while($fila=mysql_fetch_row($categoria)){
+                      while($fila=mysqli_fetch_row($categoria)){
                       echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
                       }
                       ?>
@@ -86,9 +94,9 @@ $subcategoria=mysql_query($consulta3);
         </tr>
          <tr>
              <td>Subcategoria:</td>
-                <td><select name="subcategoria" id="subcategoria" class="form-control" requerid>
+                <td><select name="subcategoria" id="subcategoria" class="form-control" required>
                       <?php 
-                      while($fila=mysql_fetch_row($subcategoria)){
+                      while($fila=mysqli_fetch_row($subcategoria)){
                       echo "<option value='".$fila['0']."'>".$fila['1']."</option>";
                       }
                       ?>
@@ -97,24 +105,21 @@ $subcategoria=mysql_query($consulta3);
         </tr>
         <tr>
               <td>Proveedor:</td>
-              <td><select name="proveedor" id="proveedor" class="form-control" requerid>
-                      <?php 
-                      while($fila2=mysql_fetch_row($proveedor)){
-                      echo "<option value='".$fila2['0']."'>".$fila2['1']."</option>";
-                      }
-                      ?>
-                   </select>
-             </td>
+              <td>
+                <input type="text" class="form-control" name="proveedor" id="proveedor" 
+                       placeholder="Ej: Libre acceso, Contenido propio, Unidad Educativa..." 
+                       maxlength="150" required />
+              </td>
         </tr>
          <tr>
              <td>Fecha</td>
-             <td><input type="text" name="fecha" id="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control" /></td>
+             <td><input type="date" name="fecha" id="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control" /></td>
         </tr>
         <tr>
             <td>URL Descarga</td>
             <td><input type="text" name="descarga" id="descarga" class="form-control"  required /></td>
-       </tr> 
-       <tr>
+        </tr> 
+        <tr>
             <td></td>
             <td><input class="btn btn-success btn-group-lg" type="submit" name="button" id="button" value="Enviar" />
             <input class="btn btn-warning btn-group-lg"type="reset" name="nuevo" id="nuevo" value="Nuevo" /></td>

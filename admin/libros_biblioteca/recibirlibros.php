@@ -8,6 +8,8 @@ move_uploaded_file($rutatemporal,'../'.$rutadestino);
 
 $nombre=$_POST['nombre'];
 $descripcion=$_POST['descripcion'];
+ // EL AUTOR ES NECESARIO PARA LA BUSQUEDA INTELIGENTE
+$autor=$_POST['autor'];
 $disponible=$_POST['disponible'];
 $categoria=$_POST['categoria'];
 $subcategoria=$_POST['subcategoria'];

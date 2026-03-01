@@ -90,7 +90,7 @@ $nro_reg=mysqli_num_rows($consulta);
 						<img src="admin/<?php echo $foto ?>" width="150" heigth="150">
 									<p><?php echo $nombre ?></p>
 									<a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro']?>" class="btn btn-default add-to-cart">
-									<i class="fa fa-download"></i>Ver y Descargar</a>
+									<i class="fa fa-download"></i>Ver</a>
                                      </div>
 								</div>
 					    </div>
@@ -120,7 +120,7 @@ $nro_reg=mysqli_num_rows($consulta);
 						<img src="admin/<?php echo $foto ?>" width="150" heigth="150">
 									<p><?php echo $nombre ?></p>
 									<a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro']?>" class="btn btn-default add-to-cart">
-									<i class="fa fa-download"></i>Ver y Descargar</a>
+									<i class="fa fa-download"></i>Ver</a>
                                      </div>
 								</div>
 					    </div>

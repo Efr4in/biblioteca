@@ -11,11 +11,12 @@ echo '<table class="table table-striped table-condensed table-hover table-respon
         	<tr>
                 <th width="200">Foto</th>
             	<th width="200">Nombre</th>
+                <th width="150">Autor</th>
             	<th width="200">Descripcion</th>
             	<th width="200">Disponible</th>
             	<th width="200">Categoria</th>
             	<th width="200">Subcategoria</th>
-            	<th width="200">Proveedor</th>
+            	<th width="150">Proveedor</th>
             	<th width="200">Fecha Ingreso</th>
             	<th width="200">URL Descarga</th>
 				<th width="50">Opciones</th>
@@ -26,11 +27,12 @@ echo '<table class="table table-striped table-condensed table-hover table-respon
 		echo '<tr>
 				<td>'.$imagen.'</td>
 				<td>'.$registro2['nombre'].'</td>
+				<td>'.$registro2['autor'].'</td>
 				<td>'.$registro2['descripcion'].'</td>
 				<td>'.$registro2['disponible'].'</td>
 				<td>'.$registro2['id_categoria'].'</td>
 				<td>'.$registro2['id_subcategoria'].'</td>
-				<td>'.$registro2['id_proveedor'].'</td>
+				<td>'.$registro2['proveedor'].'</td>
 				<td>'.$registro2['fecha_ingreso'].'</td>
 				<td>'.$registro2['url_descarga'].'</td>
 				<td> <a href="javascript:editarLibro('.$registro2['id_libro'].');" class="glyphicon glyphicon-edit eliminar"     title="Editar"></a>
