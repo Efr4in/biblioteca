@@ -55,9 +55,9 @@ $subcategoria=mysqli_query($con, $consulta3);
     <section>
     <table border="0" align="left">
         <tr>
-        <td style="margin-rigth:20px;"><B> Buscar Libro: </B></td>
+        <td style="margin-right:20px;"><B> Buscar Libro: </B></td>
         <td>&nbsp; &nbsp;</td>
-        <td width="335"><input type="text" placeholder="Busca por Nombre" id="bs-prod" style="border-radius:10px; padding-left:5px; heigth:25px; width:90%" /></td>
+        <td width="335"><input type="text" placeholder="Busca por Nombre" id="bs-prod" style="border-radius:10px; padding-left:5px; height:25px; width:90%" /></td>
             <td></td>
             <td></td>
             <td></td>

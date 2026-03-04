@@ -25,7 +25,7 @@ $nro_reg=mysqli_num_rows($consulta);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="biblioteca virtual UNI">
-    <title>Biblioteca UNI | Inicio</title>
+    <title>Biblioteca | Inicio</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -58,6 +58,18 @@ $nro_reg=mysqli_num_rows($consulta);
 
                 <div class="features_items">
                 	<br><br>
+
+                <!-- PESTAÑAS -->
+                <ul class="nav nav-tabs" style="margin-bottom:20px;">
+                    <li class="active"><a href="#catalogo" data-toggle="tab"><i class="fa fa-book"></i> Catálogo</a></li>
+                    <li><a href="#asesor" data-toggle="tab"><i class="fa fa-lightbulb-o"></i> Asesor IA</a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                <!-- TAB CATALOGO -->
+                <div class="tab-pane active" id="catalogo">
+
 				<h2 class="title text-center">Listado de Libros</h2>
 			   <?php
 
@@ -65,7 +77,6 @@ $nro_reg=mysqli_num_rows($consulta);
          $busqueda=$_GET['buscar'];
          $query=mysqli_query($con, "select * from libros where nombre like '%$busqueda%' and disponible='si'");
 		if (mysqli_num_rows($query) < 1) {
-		//echo "<script>alert('No tenemos libros con esa categoria')</script>";
 		 echo "<div class='col-sm-3'>";  
 		 echo "<p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p>"; 
 		 echo "</div>";   	
@@ -130,7 +141,36 @@ $nro_reg=mysqli_num_rows($consulta);
         }}
 		
   ?>
-             
+
+                </div> <!-- cierre tab catalogo -->
+
+                <!-- TAB ASESOR IA -->
+                <div class="tab-pane" id="asesor">
+                    <div class="col-md-8 col-md-offset-2" style="margin-top:20px; margin-bottom:40px;">
+                        <h3><i class="fa fa-lightbulb-o"></i> Asesor Inteligente de Biblioteca</h3>
+                        <p>Escribe lo que necesitas aprender y el asesor te recomendará el libro ideal de nuestro catálogo.</p>
+                        <div class="form-group">
+                            <input type="text" id="consultaAsesor" class="form-control" 
+                                placeholder="Ej: quiero aprender matemáticas..." 
+                                style="border-radius:10px; padding:10px; font-size:15px;">
+                        </div>
+                        <button onclick="consultarAsesor()" class="btn btn-primary">
+                            <i class="fa fa-search"></i> Consultar Asesor
+                        </button>
+                        <div id="cargando" style="display:none; margin-top:20px; font-size:15px;">
+                            <i class="fa fa-spinner fa-spin"></i> Consultando asesor inteligente...
+                        </div>
+                        <div id="respuesta" style="display:none; margin-top:20px; 
+                            padding:20px; background:#f9f9f9; border-radius:10px; 
+                            border-left:4px solid #2E75B6;">
+                            <h4><i class="fa fa-comment"></i> Recomendación:</h4>
+                            <p id="textoRespuesta" style="font-size:15px; line-height:1.6;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                </div> <!-- cierre tab-content -->
+
 		</div>
 	</section>
 	<!--pie de pagina-->
@@ -142,6 +182,41 @@ $nro_reg=mysqli_num_rows($consulta);
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+
+<script>
+function consultarAsesor() {
+    var consulta = document.getElementById('consultaAsesor').value;
+    if(consulta.trim() === '') {
+        alert('Por favor escribe una consulta.');
+        return;
+    }
+    document.getElementById('cargando').style.display = 'block';
+    document.getElementById('respuesta').style.display = 'none';
+
+    fetch('asesor/procesar_consulta.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consulta: consulta })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('cargando').style.display = 'none';
+        document.getElementById('textoRespuesta').innerText = data.respuesta;
+        document.getElementById('respuesta').style.display = 'block';
+    })
+    .catch(error => {
+        document.getElementById('cargando').style.display = 'none';
+        alert('Error al consultar el asesor. Intenta de nuevo.');
+    });
+}
+
+document.getElementById('consultaAsesor').addEventListener('keypress', function(e) {
+    if(e.key === 'Enter') {
+        consultarAsesor();
+    }
+});
+</script>
+
 </body>
 </html>
 <?php include "log.php"; ?>

@@ -13,7 +13,7 @@ if(isset($_SESSION['user']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Biblioteca UNI | Panel Administracion</title>
+    <title>Biblioteca | Panel Administracion</title>
     <link rel="shortcut icon" href="../images/iconolibreria.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sb-admin.css" rel="stylesheet">
