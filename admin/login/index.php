@@ -56,7 +56,7 @@ body
                    <br>
                        <br>
                      </div>
-                    <form class="form form-signup" role="form" method="post" action="entrar.php">
+                    <form class="form form-signup" role="form" method="post" action="../../login/login.php">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>

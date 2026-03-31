@@ -11,16 +11,12 @@ class clase_conexion{
 	 
 	 function conectarse() {
 		
-	     if(!($con=@mysql_connect("localhost","root"," ",true,65536)))
+		 if(!($con=@mysqli_connect("localhost","root","","bibliotecauni")))
 		 {
-		     echo"Error al conectar a la base de datos";	
+			 echo"Error al conectar a la base de datos";	
 			 exit();
-	      }
-		  if (!@mysql_select_db("bibliotecauni",$con)) {
-		   echo "Error al seleccionar la base de datos";  
-		   exit();
 		  }
-	       $this->conect=$con;
+		   $this->conect=$con;
 		   return true;	
 	 }
 }

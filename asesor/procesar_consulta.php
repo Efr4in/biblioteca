@@ -14,7 +14,7 @@ if(empty($consulta)) {
     exit;
 }
 
-$webhook_url = 'https://crash.app.n8n.cloud/webhook/asesor-ia';
+$webhook_url = 'https://crashefra.app.n8n.cloud/webhook/asesor-ia';
 
 $data = json_encode(['consulta' => $consulta]);
 
