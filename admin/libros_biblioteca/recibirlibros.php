@@ -28,7 +28,7 @@ values ('".$rutadestino."',
 '".$fecha."',
 '".$descarga."')";
 
-$res=mysql_query($sql,$conexion);
+$res=mysqli_query($conexion,$sql);
 if($res){ 
  echo '<script> alert("Se ha agregado el libro satisfactoriamente.");</script>';
 	

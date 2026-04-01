@@ -1,12 +1,18 @@
-<?php include "../conexion.php" ?>
-<?php
+<?php 
+include "../conexion.php";
 
-$peticion = "UPDATE prestamo_libro SET estado=1 WHERE id_prestamo = '".$_GET['id']."'";
-$resultado = mysqli_query($con, $peticion);
+$id_prestamo = intval($_GET['id']);
 
-$peticion2 = "UPDATE libros SET disponible = 'si' WHERE id_libro = '".$_GET['id']."'";
-$resultado2 = mysqli_query($con, $peticion2);
+// Obtener el id_libro asociado a este préstamo
+$query = mysqli_query($con, "SELECT id_libro FROM prestamo_libro WHERE id_prestamo = '$id_prestamo'");
+$row = mysqli_fetch_assoc($query);
+$id_libro = $row['id_libro'];
 
-  echo '<script> alert("Se ha devuelto el libro.");</script>';
-    echo '<script> window.location="../Lista_prestamos_libros.php"; </script>';
+// Marcar préstamo como devuelto (estado=0)
+mysqli_query($con, "UPDATE prestamo_libro SET estado = 0 WHERE id_prestamo = '$id_prestamo'");
+
+// Marcar libro como disponible usando el id_libro correcto
+mysqli_query($con, "UPDATE libros SET disponible = 'si' WHERE id_libro = '$id_libro'");
+
+echo '<script>alert("Se ha devuelto el libro."); window.location="../Lista_prestamos_libros.php";</script>';
 ?>
