@@ -17,7 +17,7 @@ if(empty($consulta)) {
 }
 
 // Llamada a n8n
-$webhook_url = 'https://crashefra.app.n8n.cloud/webhook/asesor-ia';
+$webhook_url = 'https://glam.app.n8n.cloud/webhook/asesor-ia';
 $data = json_encode(['consulta' => $consulta]);
 
 $ch = curl_init($webhook_url);
