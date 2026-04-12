@@ -52,13 +52,29 @@ if (!empty($paginas_raw)) {
     }
 }
 
-// Buscar el libro en la BD por nombre
+// Buscar el libro en la BD por coincidencia flexible
 $libro = null;
 $todos = mysqli_query($con, "SELECT id_libro, nombre, foto, url_descarga FROM libros WHERE disponible = 'si'");
+$palabras_clave = array_filter(explode(' ', strtolower($libro_nombre)), function($p) { return strlen($p) > 3; });
+
 while($row = mysqli_fetch_assoc($todos)) {
-    if(stripos($respuesta_texto, $row['nombre']) !== false || 
-       stripos($libro_nombre, $row['nombre']) !== false ||
-       stripos($row['nombre'], $libro_nombre) !== false) {
+    $nombre_bd = strtolower($row['nombre']);
+    $nombre_ia = strtolower($libro_nombre);
+
+    // Coincidencia directa
+    if(stripos($nombre_bd, $nombre_ia) !== false || stripos($nombre_ia, $nombre_bd) !== false) {
+        $libro = $row;
+        break;
+    }
+    // Coincidencia por palabras clave
+    foreach($palabras_clave as $palabra) {
+        if(stripos($nombre_bd, $palabra) !== false) {
+            $libro = $row;
+            break 2;
+        }
+    }
+    // Coincidencia en texto de respuesta
+    if(stripos($respuesta_texto, $row['nombre']) !== false) {
         $libro = $row;
         break;
     }
