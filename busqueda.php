@@ -29,6 +29,56 @@ $nro_reg=mysqli_num_rows($consulta);
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
     <link rel="shortcut icon" href="images/iconolibreria.ico">
+    <style>
+        /* ===== FIX ESTÉTICO LIBROS ===== */
+        .libro-card {
+            margin-bottom: 24px;
+        }
+        .libro-card .product-image-wrapper {
+            height: 100%;
+        }
+        .libro-card .single-products {
+            height: 290px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .libro-card .productinfo {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .libro-card .productinfo img {
+            width: 130px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .libro-card .productinfo p {
+            font-size: 12px;
+            margin-top: 8px;
+            margin-bottom: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            max-width: 140px;
+            text-align: center;
+        }
+        .libro-card .product-overlay .overlay-content img {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+        }
+        .libro-card .product-overlay .overlay-content p {
+            font-size: 12px;
+        }
+        /* ===== FIN FIX ESTÉTICO ===== */
+    </style>
 </head>
 <body>
     <?php include('includes/header.php'); ?>
@@ -71,19 +121,19 @@ $nro_reg=mysqli_num_rows($consulta);
                             $busqueda = $_GET['buscar'];
                             $query = mysqli_query($con, "SELECT * FROM libros WHERE nombre LIKE '%$busqueda%' AND disponible='si'");
                             if (mysqli_num_rows($query) < 1) {
-                                echo "<div class='col-sm-3'><p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p></div>";
+                                echo "<div class='col-sm-12'><p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p></div>";
                             } else {
                                 while($row = mysqli_fetch_array($query)) { ?>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 libro-card">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="admin/<?php echo $row['foto'] ?>" width="100">
+                                                    <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
                                                     <p><?php echo $row['nombre'] ?></p>
                                                 </div>
                                                 <div class="product-overlay">
                                                     <div class="overlay-content">
-                                                        <img src="admin/<?php echo $row['foto'] ?>" width="150">
+                                                        <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
                                                         <p><?php echo $row['nombre'] ?></p>
                                                         <a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro'] ?>" class="btn btn-default add-to-cart">
                                                             <i class="fa fa-download"></i> Ver
@@ -98,16 +148,16 @@ $nro_reg=mysqli_num_rows($consulta);
                         } else {
                             $query = mysqli_query($con, "SELECT * FROM libros WHERE disponible='si'");
                             while($row = mysqli_fetch_array($query)) { ?>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 libro-card">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
-                                                <img src="admin/<?php echo $row['foto'] ?>" width="100">
+                                                <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
                                                 <p><?php echo $row['nombre'] ?></p>
                                             </div>
                                             <div class="product-overlay">
                                                 <div class="overlay-content">
-                                                    <img src="admin/<?php echo $row['foto'] ?>" width="150">
+                                                    <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
                                                     <p><?php echo $row['nombre'] ?></p>
                                                     <a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro'] ?>" class="btn btn-default add-to-cart">
                                                         <i class="fa fa-download"></i> Ver
@@ -140,7 +190,6 @@ $nro_reg=mysqli_num_rows($consulta);
                                 <i class="fa fa-spinner fa-spin"></i> Consultando asesor inteligente...
                             </div>
 
-                            <!-- Respuesta: texto + tarjeta libro lado a lado -->
                             <div id="respuesta" style="display:none; margin-top:20px;">
                                 <div class="row">
                                     <!-- Columna texto -->
@@ -155,12 +204,12 @@ $nro_reg=mysqli_num_rows($consulta);
                                         <div class="product-image-wrapper" style="max-width:180px; margin:0 auto;">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img id="libroFoto" src="" style="width:100%; max-width:150px; height:auto;">
+                                                    <img id="libroFoto" src="" style="width:130px; height:180px; object-fit:cover; border-radius:4px;">
                                                     <p id="libroNombre" style="font-size:12px; margin:5px 0;"></p>
                                                 </div>
                                                 <div class="product-overlay">
                                                     <div class="overlay-content">
-                                                        <img id="libroFotoOverlay" src="" style="width:100%; max-width:150px; height:auto;">
+                                                        <img id="libroFotoOverlay" src="" style="width:120px; height:160px; object-fit:cover;">
                                                         <p id="libroNombreOverlay" style="font-size:12px;"></p>
                                                         <a id="libroLink" href="#" class="btn btn-default add-to-cart btn-xs">
                                                             <i class="fa fa-download"></i> Ver
@@ -172,7 +221,7 @@ $nro_reg=mysqli_num_rows($consulta);
                                     </div>
                                 </div>
 
-                                <!-- ✅ NUEVO: Bloque de páginas (solo consultas complejas) -->
+                                <!-- Bloque de páginas (solo consultas complejas) -->
                                 <div id="bloquePaginas" style="display:none; margin-top:15px;
                                     padding:15px; background:#eaf4ff;
                                     border-left:4px solid #1a6fbf; border-radius:8px;">
@@ -181,18 +230,12 @@ $nro_reg=mysqli_num_rows($consulta);
                                     </h5>
                                     <p id="textoPaginas" style="margin:0;"></p>
                                 </div>
-                                <!-- FIN bloque páginas -->
-
                             </div>
-                            <!-- FIN respuesta -->
-
                         </div>
                     </div>
                     <!-- FIN TAB ASESOR IA -->
 
                 </div>
-                <!-- FIN tab-content -->
-
             </div>
         </div>
     </section>
@@ -246,7 +289,6 @@ $nro_reg=mysqli_num_rows($consulta);
                 document.getElementById('colLibro').style.display = 'none';
             }
 
-            // ✅ NUEVO: Mostrar páginas si es consulta compleja
             if(data.es_compleja && data.paginas && data.paginas.trim() !== '') {
                 document.getElementById('textoPaginas').innerText       = data.paginas;
                 document.getElementById('bloquePaginas').style.display = 'block';
