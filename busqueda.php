@@ -171,6 +171,18 @@ $nro_reg=mysqli_num_rows($consulta);
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- ✅ NUEVO: Bloque de páginas (solo consultas complejas) -->
+                                <div id="bloquePaginas" style="display:none; margin-top:15px;
+                                    padding:15px; background:#eaf4ff;
+                                    border-left:4px solid #1a6fbf; border-radius:8px;">
+                                    <h5 style="color:#1a6fbf; margin:0 0 8px 0;">
+                                        <i class="fa fa-file-text-o"></i> Páginas relevantes en el libro:
+                                    </h5>
+                                    <p id="textoPaginas" style="margin:0;"></p>
+                                </div>
+                                <!-- FIN bloque páginas -->
+
                             </div>
                             <!-- FIN respuesta -->
 
@@ -204,6 +216,7 @@ $nro_reg=mysqli_num_rows($consulta);
 
         document.getElementById('cargando').style.display = 'block';
         document.getElementById('respuesta').style.display = 'none';
+        document.getElementById('bloquePaginas').style.display = 'none';
 
         fetch('asesor/procesar_consulta.php', {
             method: 'POST',
@@ -220,17 +233,25 @@ $nro_reg=mysqli_num_rows($consulta);
                 var nombre = data.libro.nombre;
                 var id     = data.libro.id_libro;
 
-                document.getElementById('libroFoto').src               = foto;
-                document.getElementById('libroFotoOverlay').src        = foto;
-                document.getElementById('libroNombre').innerText       = nombre;
+                document.getElementById('libroFoto').src                = foto;
+                document.getElementById('libroFotoOverlay').src         = foto;
+                document.getElementById('libroNombre').innerText        = nombre;
                 document.getElementById('libroNombreOverlay').innerText = nombre;
-                document.getElementById('libroLink').href              = 'admin/pdf/archivo.php?id=' + id;
+                document.getElementById('libroLink').href               = 'admin/pdf/archivo.php?id=' + id;
 
-                document.getElementById('colTexto').className      = 'col-md-8';
-                document.getElementById('colLibro').style.display  = 'block';
+                document.getElementById('colTexto').className     = 'col-md-8';
+                document.getElementById('colLibro').style.display = 'block';
             } else {
-                document.getElementById('colTexto').className      = 'col-md-12';
-                document.getElementById('colLibro').style.display  = 'none';
+                document.getElementById('colTexto').className     = 'col-md-12';
+                document.getElementById('colLibro').style.display = 'none';
+            }
+
+            // ✅ NUEVO: Mostrar páginas si es consulta compleja
+            if(data.es_compleja && data.paginas && data.paginas.trim() !== '') {
+                document.getElementById('textoPaginas').innerText       = data.paginas;
+                document.getElementById('bloquePaginas').style.display = 'block';
+            } else {
+                document.getElementById('bloquePaginas').style.display = 'none';
             }
 
             document.getElementById('respuesta').style.display = 'block';
