@@ -24,7 +24,7 @@ while($row = mysqli_fetch_assoc($query)) {
 }
 
 // Llamada a n8n — enviamos consulta + catálogo
-$webhook_url = 'https://glam.app.n8n.cloud/webhook/asesor-ia';
+$webhook_url = 'https://uepbolivianoholandes.app.n8n.cloud/webhook/asesor-ia';
 $data = json_encode([
     'consulta' => $consulta,
     'catalogo' => $catalogo
