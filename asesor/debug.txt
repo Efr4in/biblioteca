@@ -1,1 +1,117 @@
-{"respuesta":"¡Hola! Parece que estás explorando o buscando inspiración con tu consulta. Aunque 'asertyio' no nos da una pista directa sobre un tema específico, me gustaría recomendarte el libro 'Historia Universal'. Es una excelente opción si buscas expandir tus conocimientos generales, ya que te ofrece una visión amplia y fascinante de los eventos, culturas y desarrollos que han moldeado nuestro mundo a lo largo del tiempo.","libro_nombre":"Historia Universal","es_compleja":false,"paginas":""}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 - No workspace here</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open Sans"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        height: 100%;
+        width: 100%;
+        background-color: #fbfcfe;
+        font-family: "Open Sans";
+        font-style: normal;
+        text-align: center;
+        color: #555555;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 400;
+      }
+
+      body * {
+        margin-block-start: 0;
+        margin-block-end: 5px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        max-width: 350px;
+        margin-top: 48px;
+      }
+
+      h1 {
+        font-weight: 400;
+        font-size: 28px;
+        line-height: 35px;
+        color: #555555;
+        margin-top: 64px;
+      }
+
+      h2 {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 26px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: normal;
+        color: #7d7d87;
+      }
+
+      a {
+        color: #fd4d21;
+        text-decoration: none;
+        text-align: center;
+        font-weight: 400px;
+      }
+
+      .subheading {
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="120"
+        height="32"
+        viewBox="0 0 120 32"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M55.1998 12.8C52.2177 12.8 49.7119 10.7604 49.0014 8H41.666C40.1017 8 38.7667 9.13092 38.5096 10.6739L38.2465 12.2522C37.9968 13.7506 37.2388 15.0548 36.1668 16C37.2388 16.9452 37.9968 18.2494 38.2465 19.7478L38.5096 21.3261C38.7667 22.8691 40.1017 24 41.666 24H42.6014C43.3119 21.2396 45.8177 19.2 48.7998 19.2C52.3344 19.2 55.1998 22.0654 55.1998 25.6C55.1998 29.1346 52.3344 32 48.7998 32C45.8177 32 43.3119 29.9604 42.6014 27.2H41.666C38.5374 27.2 35.8674 24.9382 35.3531 21.8522L35.0901 20.2739C34.8329 18.7309 33.4979 17.6 31.9336 17.6H29.3982C28.6877 20.3604 26.1819 22.4 23.1998 22.4C20.2177 22.4 17.7119 20.3604 17.0014 17.6H13.3982C12.6877 20.3604 10.1819 22.4 7.1998 22.4C3.66518 22.4 0.799805 19.5346 0.799805 16C0.799805 12.4654 3.66518 9.6 7.1998 9.6C10.1819 9.6 12.6877 11.6396 13.3982 14.4H17.0014C17.7119 11.6396 20.2177 9.6 23.1998 9.6C26.1819 9.6 28.6877 11.6396 29.3982 14.4H31.9336C33.4979 14.4 34.8329 13.2691 35.0901 11.7261L35.3531 10.1478C35.8674 7.06184 38.5374 4.8 41.666 4.8L49.0014 4.8C49.7119 2.03964 52.2177 0 55.1998 0C58.7344 0 61.5998 2.86538 61.5998 6.4C61.5998 9.93462 58.7344 12.8 55.1998 12.8ZM55.1998 9.6C56.9671 9.6 58.3998 8.16731 58.3998 6.4C58.3998 4.63269 56.9671 3.2 55.1998 3.2C53.4325 3.2 51.9998 4.63269 51.9998 6.4C51.9998 8.16731 53.4325 9.6 55.1998 9.6ZM7.1998 19.2C8.96712 19.2 10.3998 17.7673 10.3998 16C10.3998 14.2327 8.96712 12.8 7.1998 12.8C5.43249 12.8 3.9998 14.2327 3.9998 16C3.9998 17.7673 5.43249 19.2 7.1998 19.2ZM26.3998 16C26.3998 17.7673 24.9671 19.2 23.1998 19.2C21.4325 19.2 19.9998 17.7673 19.9998 16C19.9998 14.2327 21.4325 12.8 23.1998 12.8C24.9671 12.8 26.3998 14.2327 26.3998 16ZM51.9998 25.6C51.9998 27.3673 50.5671 28.8 48.7998 28.8C47.0325 28.8 45.5998 27.3673 45.5998 25.6C45.5998 23.8327 47.0325 22.4 48.7998 22.4C50.5671 22.4 51.9998 23.8327 51.9998 25.6Z"
+          fill="#EA4B71"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M100.004 13.8366V13.6841C101.121 13.1249 102.237 12.1591 102.237 10.2529C102.237 7.508 99.9791 5.85596 96.8579 5.85596C93.6606 5.85596 91.3768 7.60966 91.3768 10.3038C91.3768 12.1337 92.4426 13.1249 93.6099 13.6841V13.8366C92.3157 14.2941 90.7678 15.6665 90.7678 17.954C90.7678 20.7243 93.0516 22.656 96.8325 22.656C100.613 22.656 102.821 20.7243 102.821 17.954C102.821 15.6665 101.299 14.3195 100.004 13.8366ZM96.8325 8.19423C98.1013 8.19423 99.0402 9.00755 99.0402 10.38C99.0402 11.7525 98.0759 12.5658 96.8325 12.5658C95.5892 12.5658 94.5488 11.7525 94.5488 10.38C94.5488 8.98213 95.5384 8.19423 96.8325 8.19423ZM96.8325 20.216C95.3608 20.216 94.1681 19.2756 94.1681 17.6744C94.1681 16.2257 95.1578 15.1328 96.8072 15.1328C98.4312 15.1328 99.4208 16.2003 99.4208 17.7252C99.4208 19.2756 98.2789 20.216 96.8325 20.216Z"
+          fill="#101330"
+        />
+        <path
+          d="M106.736 22.4018H109.984V15.514C109.984 13.252 111.354 12.2608 112.902 12.2608C114.425 12.2608 115.617 13.2774 115.617 15.3616V22.4018H118.865V14.7007C118.865 11.3712 116.937 9.43962 113.917 9.43962C112.014 9.43962 110.948 10.2021 110.187 11.1933H109.984L109.705 9.69378H106.736V22.4018Z"
+          fill="#101330"
+        />
+        <path
+          d="M77.9839 22.4018H74.7358V9.69378H77.7048L77.9839 11.1933H78.1869C78.9481 10.2021 80.0139 9.43962 81.9171 9.43962C84.9367 9.43962 86.8653 11.3712 86.8653 14.7007V22.4018H83.6172V15.3616C83.6172 13.2774 82.4246 12.2608 80.9021 12.2608C79.3542 12.2608 77.9839 13.252 77.9839 15.514V22.4018Z"
+          fill="#101330"
+        />
+      </svg>
+
+      <h1>No workspace here</h1>
+      <h2><a href="https://app.n8n.cloud/magic-link">Open Admin Panel</a></h2>
+      <h2></h2>
+      <p class="subheading">
+        If the workspace exists, the owner can manage it from the admin panel.
+      </p>
+    </div>
+  </body>
+</html>
