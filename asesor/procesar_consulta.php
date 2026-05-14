@@ -8,6 +8,8 @@ if(!isset($_SESSION['usuario'])) {
 
 include("../admin/conexion.php");
 
+global $con;
+
 $input = json_decode(file_get_contents('php://input'), true);
 $consulta = isset($input['consulta']) ? $input['consulta'] : '';
 
