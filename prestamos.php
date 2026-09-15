@@ -41,12 +41,44 @@ if(isset($_SESSION['usuario']))
 			         <div class="col-md-5">
 			            <h3>Prestamo de Libros</h3>
 			            <p>
-			            	La Biblioteca de la Universidad cuenta con algunos libros disponibles para los estudiantes los cuales pueden 
-			            	solicitar prestado los libros. El encargado de la biblioteca atendera al o los estudiantes que lleguen al local
-			            	
+			            	En la Biblioteca Virtual del U.E.P. Boliviano Holandés puedes acceder a nuestro
+			            	catálogo de libros de dos formas: consultando el material digital disponible
+			            	directamente desde la plataforma, o solicitando el préstamo físico del libro
+			            	en la biblioteca del colegio.
 			            </p>
+			            <p>
+			            	Para el préstamo físico, acércate a la biblioteca con tu carnet estudiantil y
+			            	el encargado te asistirá con la entrega y registro del libro. Recuerda que la
+			            	disponibilidad del material físico se refleja en tiempo real en esta plataforma.
+			            </p>
+			            <a href="busqueda.php" class="btn btn-primary">Ver Catálogo Completo</a>
+			            <a href="contacto.php" class="btn btn-default">Contactar Biblioteca</a>
 			         </div>
 
+			     </div>
+
+			     <div class="row">
+			         <div class="col-md-12">
+			            <h3 class="text-center">¿Cómo funciona?</h3>
+			            <div class="row">
+			                <div class="col-sm-3 text-center">
+			                    <h4>1</h4>
+			                    <p>Busca el libro en el catálogo o por categoría.</p>
+			                </div>
+			                <div class="col-sm-3 text-center">
+			                    <h4>2</h4>
+			                    <p>Si tiene versión digital, puedes verlo o descargarlo directamente.</p>
+			                </div>
+			                <div class="col-sm-3 text-center">
+			                    <h4>3</h4>
+			                    <p>Si necesitas el ejemplar físico, acércate a la biblioteca con tu carnet estudiantil.</p>
+			                </div>
+			                <div class="col-sm-3 text-center">
+			                    <h4>4</h4>
+			                    <p>El encargado de biblioteca registra el préstamo y te indica la fecha de devolución.</p>
+			                </div>
+			            </div>
+			         </div>
 			     </div>
 			</div>
 	<br>

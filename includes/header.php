@@ -1,4 +1,4 @@
-	<?php
+<?php
 //session_start();
 include("admin/conexion.php");
 $nombre = $_SESSION['usuario'];
@@ -37,8 +37,11 @@ $nombre = $_SESSION['usuario'];
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="inicio.php"><img src="images/home/logo.png" alt="" width="100px" height="50px" /></a>
+						<div class="logo pull-left" style="display:flex; align-items:center;">
+							<a href="inicio.php" style="display:flex; align-items:center;">
+								<img src="images/home/escudo-boliviano-holandes.png" alt="U.E.P. Boliviano Holandés" height="60" style="width:auto;">
+								<span style="margin-left:10px; font-family:'Roboto', sans-serif; font-weight:600; color:#064589; line-height:1.1; font-size:15px;">Biblioteca Virtual<br><span style="font-weight:300; font-size:12px; color:#555;">U.E.P. Boliviano Holandés</span></span>
+							</a>
 						</div>
 						
 					</div>
@@ -74,11 +77,14 @@ $nombre = $_SESSION['usuario'];
 								<li><a href="inicio.php" class="active">Inicio</a></li>
 								<li class="dropdown"><a href="#">Libros<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="libros_programacion.php">Programacion</a></li>
-										<li><a href="libros_informatica.php">Informatica</a></li> 
-										<li><a href="libros_sistemas.php">Ingeneria de Sistemas</a></li> 
-										<li><a href="libros_bd.php">Base de Datos</a></li> 
-										<li><a href="libros_web.php">Diseño Web</a></li> 
+                                        <?php
+                                            $menucat = mysqli_query($con, "select * from categorias order by nombre_categoria asc");
+                                            while ($menucatrow = mysqli_fetch_array($menucat)) {
+                                        ?>
+                                        <li><a href="inicio.php?cat=<?php echo $menucatrow['id_categoria']; ?>"><?php echo $menucatrow['nombre_categoria']; ?></a></li>
+                                        <?php
+                                            }
+                                        ?>
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Servicios<i class="fa fa-angle-down"></i></a>

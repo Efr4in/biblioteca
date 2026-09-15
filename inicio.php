@@ -86,12 +86,12 @@ $nro_reg=mysqli_num_rows($consulta);
 
         if (isset($_GET['cat'])) {
          $cat=$_GET['cat'];
+         $query=mysqli_query($con,"select * from libros where id_categoria='$cat' order by fecha_ingreso desc");
         }
         else{
-        $cat = "1";	
-       // echo "<script>alert('No tenemos libros con esa categoria')</script>";
+         // Sin categoria seleccionada: mostrar los libros mas recientes en vez de forzar una categoria fija
+         $query=mysqli_query($con,"select * from libros order by fecha_ingreso desc limit 12");
         }
-		$query=mysqli_query($con,"select * from libros where id_categoria='$cat'");
 		if (mysqli_num_rows($query) < 1) {
 		//echo "<script>alert('No tenemos libros con esa categoria')</script>";
 		 echo "<div class='col-sm-3'>";  
