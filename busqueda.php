@@ -28,7 +28,7 @@ $nro_reg=mysqli_num_rows($consulta);
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/iconolibreria.ico">
+    <link rel="shortcut icon" href="images/favicon-escudo.ico">
     <style>
         /* ===== FIX ESTÉTICO LIBROS ===== */
         .libro-card {
@@ -36,9 +36,13 @@ $nro_reg=mysqli_num_rows($consulta);
         }
         .libro-card .product-image-wrapper {
             height: 100%;
+            transition: transform 200ms ease;
+        }
+        .libro-card .product-image-wrapper:hover {
+            transform: scale(1.03);
         }
         .libro-card .single-products {
-            height: 290px;
+            height: 380px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -52,30 +56,30 @@ $nro_reg=mysqli_num_rows($consulta);
             align-items: center;
         }
         .libro-card .productinfo img {
-            width: 130px;
-            height: 180px;
+            width: 200px;
+            height: 270px;
             object-fit: cover;
             border-radius: 4px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         .libro-card .productinfo p {
-            font-size: 12px;
+            font-size: 13px;
             margin-top: 8px;
             margin-bottom: 0;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            max-width: 140px;
+            max-width: 200px;
             text-align: center;
         }
         .libro-card .product-overlay .overlay-content img {
-            width: 120px;
-            height: 160px;
+            width: 170px;
+            height: 230px;
             object-fit: cover;
         }
         .libro-card .product-overlay .overlay-content p {
-            font-size: 12px;
+            font-size: 13px;
         }
         /* ===== FIN FIX ESTÉTICO ===== */
     </style>
@@ -124,7 +128,7 @@ $nro_reg=mysqli_num_rows($consulta);
                                 echo "<div class='col-sm-12'><p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p></div>";
                             } else {
                                 while($row = mysqli_fetch_array($query)) { ?>
-                                    <div class="col-sm-3 libro-card">
+                                    <div class="col-sm-4 libro-card">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
@@ -148,7 +152,7 @@ $nro_reg=mysqli_num_rows($consulta);
                         } else {
                             $query = mysqli_query($con, "SELECT * FROM libros WHERE disponible='si'");
                             while($row = mysqli_fetch_array($query)) { ?>
-                                <div class="col-sm-3 libro-card">
+                                <div class="col-sm-4 libro-card">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
