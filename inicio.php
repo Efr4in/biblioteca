@@ -33,7 +33,7 @@ $nro_reg=mysqli_num_rows($consulta);
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">     
-    <link rel="shortcut icon" href="images/iconolibreria.ico">
+	<link rel="shortcut icon" href="images/favicon-escudo.ico">
 </head>
 <body>
 <!--barra de correo, telefono y login-->
@@ -79,58 +79,40 @@ $nro_reg=mysqli_num_rows($consulta);
 </div> <!--fin de barra lateral izquierda-->
 			<div class="col-sm-9 padding-right">
 				<!--Contenido Central donde se muestran los libros-->
-				<!--Cuadros con los libros obtenidos de la base de datos-->
                 <div class="features_items">
 				<h2 class="title text-center">Listado de Libros</h2>
 			   <?php
 
         if (isset($_GET['cat'])) {
          $cat=$_GET['cat'];
-         $query=mysqli_query($con,"select * from libros where id_categoria='$cat' order by fecha_ingreso desc");
+         $query=mysqli_query($con,"select nombre, autor from libros where id_categoria='$cat' order by nombre asc");
         }
         else{
-         // Sin categoria seleccionada: mostrar los libros mas recientes en vez de forzar una categoria fija
-         $query=mysqli_query($con,"select * from libros order by fecha_ingreso desc limit 12");
+         // Sin categoria seleccionada: listado completo, alfabetico por nombre
+         $query=mysqli_query($con,"select nombre, autor from libros order by nombre asc");
         }
 		if (mysqli_num_rows($query) < 1) {
-		//echo "<script>alert('No tenemos libros con esa categoria')</script>";
 		 echo "<div class='col-sm-3'>";  
 		 echo "<p style='color:red;'><b>No tenemos Libros para esta Categoria</b></p>"; 
 		 echo "</div>";   	
 		}
 		else{
+		echo "<ul class='book-list'>";
 		while($row=mysqli_fetch_array($query)){
-			
-		        $id=$row['id_libro'];
-				$foto=$row['foto'];
+
 				$nombre=$row['nombre'];
-				$descripcion=$row['descripcion']; 	
+				$autor=$row['autor'];
 			?>
 
-             <div class="col-sm-3">
-					<div class="product-image-wrapper">
-						<div class="single-products">
-							<div class="productinfo text-center">
-						<img src="admin/<?php echo $foto ?>" width="100" heigth="90">	 <p><?php echo $nombre ?></p>
-						    <p><?php //echo $descripcion ?></p>
-						    </div>
-							    <div class="product-overlay">
-									<div class="overlay-content">
-						<img src="admin/<?php echo $foto ?>" width="150" heigth="150">
-									<p><?php echo $nombre ?></p>
-									<a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro']?>" class="btn btn-default add-to-cart">
-									<i class="fa fa-download"></i>Ver</a>
-                                     </div>
-								</div>
-					    </div>
-					</div>
-			   </div>
+            <li class="book-list-item">
+                <span class="book-list-nombre"><?php echo $nombre ?></span>
+                <span class="book-list-autor"><?php echo $autor ?></span>
+            </li>
 
-         <?php } } ?>
+         <?php } echo "</ul>"; } ?>
          <br>
 					<!--Tabs-->
 				 <div class="row">	<?php // include ('includes/tabs.php');?> </div>
-					<!--slider de abajo-->
 					<?php //include ('includes/sliderInferior.php');?> 
 					<?php //include ('includes/tabs.php');?> 					
 				</div>
@@ -139,7 +121,6 @@ $nro_reg=mysqli_num_rows($consulta);
 	</section>
 	<!--pie de pagina-->
 <?php include ('includes/footer.php');?>
-	 <!--Librerias de Jquery, Bootstrap y otras mas--> 
     <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.scrollUp.min.js"></script>
