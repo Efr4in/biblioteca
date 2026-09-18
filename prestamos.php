@@ -19,7 +19,7 @@ if(isset($_SESSION['usuario']))
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">     
-	<link rel="shortcut icon" href="images/favicon-escudo.ico">
+    <link rel="shortcut icon" href="images/favicon-escudo.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
@@ -51,33 +51,38 @@ if(isset($_SESSION['usuario']))
 			            	el encargado te asistirá con la entrega y registro del libro. Recuerda que la
 			            	disponibilidad del material físico se refleja en tiempo real en esta plataforma.
 			            </p>
-			            <a href="busqueda.php" class="btn btn-primary">Ver Catálogo Completo</a>
-			            <a href="contacto.php" class="btn btn-default">Contactar Biblioteca</a>
+			            <div style="display:flex; align-items:center; gap:12px; margin-top:15px;">
+			                <a href="busqueda.php" class="btn btn-primary" style="margin:0; box-sizing:border-box; display:inline-block; padding:6px 12px; line-height:1.42857143; border:1px solid transparent; border-radius:4px;">Ver Catálogo Completo</a>
+			                <a href="contacto.php" class="btn" style="margin:0; box-sizing:border-box; display:inline-block; padding:6px 12px; line-height:1.42857143; border:1px solid #064589; border-radius:4px; color:#064589; background:#fff;">Contactar Biblioteca</a>
+			            </div>
 			         </div>
 
 			     </div>
 
-			     <div class="row">
-			         <div class="col-md-12">
-			            <h3 class="text-center">¿Cómo funciona?</h3>
-			            <div class="row">
-			                <div class="col-sm-3 text-center">
-			                    <h4>1</h4>
-			                    <p>Busca el libro en el catálogo o por categoría.</p>
-			                </div>
-			                <div class="col-sm-3 text-center">
-			                    <h4>2</h4>
-			                    <p>Si tiene versión digital, puedes verlo o descargarlo directamente.</p>
-			                </div>
-			                <div class="col-sm-3 text-center">
-			                    <h4>3</h4>
-			                    <p>Si necesitas el ejemplar físico, acércate a la biblioteca con tu carnet estudiantil.</p>
-			                </div>
-			                <div class="col-sm-3 text-center">
-			                    <h4>4</h4>
-			                    <p>El encargado de biblioteca registra el préstamo y te indica la fecha de devolución.</p>
-			                </div>
-			            </div>
+			     <div class="row" style="margin-top:30px;">
+			         <div class="col-md-6">
+			            <h3 style="color:#064589;">Misión</h3>
+			            <p>
+			            	La Unidad Educativa Boliviano Holandés tiene como misión formar integralmente a sus
+			            	estudiantes, promoviendo valores de respeto, responsabilidad y solidaridad, cuenta
+			            	con personal docente de amplia experiencia y calificados en el ámbito educativo.
+			            	Brinda una educación de calidad en concordancia al currículo del ministerio de
+			            	educación complementado con contenidos actualizados y revisados aplicando
+			            	metodologías y estrategias acordes a las características de los estudiantes
+			            	basados en principios y valores atendiendo las necesidades del mundo moderno
+			            	para formar personas críticas, responsables, respetuosas y capaces de enfrentar
+			            	los retos en sus vidas.
+			            </p>
+			         </div>
+			         <div class="col-md-6">
+			            <h3 style="color:#C81C28;">Visión</h3>
+			            <p>
+			            	Mantener el liderazgo en el campo educativo dentro de la comunidad con
+			            	metodologías y contenidos acordes a los avances tecnológicos, formando
+			            	estudiantes protagonista de su propio aprendizaje con la capacidad de
+			            	investigar, innovar, tener un sentido crítico y una conciencia democrática
+			            	comprometidos con el desarrollo social, ambiental y económico de nuestro país.
+			            </p>
 			         </div>
 			     </div>
 			</div>

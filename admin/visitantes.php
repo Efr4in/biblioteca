@@ -17,7 +17,7 @@ $resultado=mysqli_query($con, $consulta);
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Biblioteca UNI | Visitantes</title>
-    <link rel="shortcut icon" href="../images/iconolibreria.ico">
+    <link rel="shortcut icon" href="../images/favicon-escudo.ico">
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->

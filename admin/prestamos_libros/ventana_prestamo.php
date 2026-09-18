@@ -10,7 +10,7 @@ if(isset($_SESSION['user'])) { ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca UNI | Panel Administracion</title>
-    <link rel="shortcut icon" href="../../images/iconolibreria.ico">
+    <link rel="shortcut icon" href="../../images/favicon-escudo.ico">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/sb-admin.css" rel="stylesheet">
     <link href="../css/morris.css" rel="stylesheet">

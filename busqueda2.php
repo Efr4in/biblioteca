@@ -28,7 +28,7 @@ $nro_reg=mysqli_num_rows($consulta);
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">     
-    <link rel="shortcut icon" href="images/iconolibreria.ico">
+    <link rel="shortcut icon" href="images/favicon-escudo.ico">
 </head>
 <body>
             <?php include ('includes/header.php');?>	

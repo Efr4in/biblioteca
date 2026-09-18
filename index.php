@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="loginassets/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="login/assets/css/form-elements.css">
         <link rel="stylesheet" href="login/assets/css/style.css">
-        <link rel="shortcut icon" href="images/iconolibreria.ico">
+        <link rel="shortcut icon" href="images/favicon-escudo.ico">
 
     </head>
     <body style="background: black;">

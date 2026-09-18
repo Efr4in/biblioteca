@@ -13,7 +13,7 @@ if(isset($_SESSION['usuario'])) {
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/responsive.css" rel="stylesheet">
-    <link rel="shortcut icon" href="../images/iconolibreria.ico">
+    <link rel="shortcut icon" href="../images/favicon-escudo.ico">
     <style>
         .card-libro {
             display: flex;

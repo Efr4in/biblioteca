@@ -14,7 +14,7 @@ if(isset($_SESSION['user']))
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Biblioteca | Panel Administracion</title>
-    <link rel="shortcut icon" href="../images/iconolibreria.ico">
+    <link rel="shortcut icon" href="../images/favicon-escudo.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sb-admin.css" rel="stylesheet">
     <link href="css/morris.css" rel="stylesheet">

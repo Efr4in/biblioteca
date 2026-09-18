@@ -46,7 +46,7 @@ $contados6 = mysqli_num_rows($resultado6);
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Biblioteca | Panel Control</title>
-    <link rel="shortcut icon" href="../images/iconolibreria.ico">
+    <link rel="shortcut icon" href="../images/favicon-escudo.ico">
     <!-- Libreria de Bootstrap-->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- hojas de estilo css -->
