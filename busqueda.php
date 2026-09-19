@@ -42,7 +42,7 @@ $nro_reg=mysqli_num_rows($consulta);
             transform: scale(1.03);
         }
         .libro-card .single-products {
-            height: 380px;
+            height: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -56,11 +56,11 @@ $nro_reg=mysqli_num_rows($consulta);
             align-items: center;
         }
         .libro-card .productinfo img {
-            width: 200px;
-            height: 270px;
+            width: 240px;
+            height: 324px;
             object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 22px rgba(0,0,0,0.3);
         }
         .libro-card .productinfo p {
             font-size: 13px;
@@ -70,13 +70,15 @@ $nro_reg=mysqli_num_rows($consulta);
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            max-width: 200px;
+            max-width: 240px;
             text-align: center;
         }
         .libro-card .product-overlay .overlay-content img {
-            width: 170px;
-            height: 230px;
+            width: 190px;
+            height: 257px;
             object-fit: cover;
+            border-radius: 3px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.35);
         }
         .libro-card .product-overlay .overlay-content p {
             font-size: 13px;

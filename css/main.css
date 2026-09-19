@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background: #FFFFFF;
+  background: #F4F6F9;
   position: relative;
   font-weight:400px;
 }
@@ -895,7 +895,7 @@ h2.title {
 }
 
 .product-overlay {
-  background:#064589;
+  background: linear-gradient(135deg, #064589 0%, #7A2D55 50%, #C81C28 100%);
   top: 0;
   display: none;
   height: 0;
