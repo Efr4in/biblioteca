@@ -1,3 +1,41 @@
+<style>
+    .navbar-inverse {
+        background-color: #064589;
+        border-color: #05356b;
+    }
+    .navbar-inverse .navbar-toggle .icon-bar {
+        background-color: #fff;
+    }
+    .top-nav > li > a {
+        color: rgba(255,255,255,0.85) !important;
+    }
+    .top-nav > li > a:hover {
+        color: #fff !important;
+        background-color: #05356b !important;
+    }
+    .side-nav {
+        background-color: #0a1f3d;
+    }
+    .side-nav > li > a {
+        color: rgba(255,255,255,0.75);
+    }
+    .side-nav > li > a:hover {
+        color: #fff;
+        background-color: #064589;
+    }
+    .side-nav > li.active > a,
+    .side-nav > li.active > a:hover,
+    .side-nav > li.active > a:focus {
+        color: #fff;
+        background-color: #C81C28;
+    }
+    .side-nav > li > ul {
+        background-color: #081a33;
+    }
+    .side-nav > li > ul > li > a:hover {
+        background-color: #064589;
+    }
+</style>
 <div id="wrapper">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 
@@ -67,6 +105,7 @@
                 <li><a href="/biblioteca/admin/copiaSeguridad.php"><i class="fa fa-fw fa-database"></i> Respaldo</a></li>
                 <li><a href="/biblioteca/admin/usuarios.php"><i class="fa fa-fw fa-users"></i> Usuarios</a></li>
                 <li><a href="/biblioteca/admin/estudiantes.php"><i class="fa fa-fw fa-users"></i> Estudiantes</a></li>
+                <li><a href="/biblioteca/admin/registro_estudiantil.php"><i class="fa fa-fw fa-user-plus"></i> Registro Estudiantil</a></li>
                 <li><a href="/biblioteca/admin/visitantes.php"><i class="fa fa-fw fa-users"></i> Visitantes</a></li>
                 <li><a href="/biblioteca/login/logout.php"><i class="fa fa-fw fa-power-off"></i> Cerrar sesion</a></li>
 

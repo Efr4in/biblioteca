@@ -55,6 +55,45 @@ $contados6 = mysqli_num_rows($resultado6);
     <link href="css/morris.css" rel="stylesheet">
     <!-- fuentes -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .panel-primary {
+            border-color: #064589;
+        }
+        .panel-primary > .panel-heading {
+            background-color: #064589;
+            border-color: #064589;
+        }
+        .panel-red {
+            border-color: #C81C28;
+        }
+        .panel-red > .panel-heading {
+            background-color: #C81C28;
+            border-color: #C81C28;
+            color: #fff;
+        }
+        .panel-red > .panel-footer {
+            background-color: #f5f5f5;
+        }
+        /* Fix: el grid de floats de Bootstrap 3 no alinea bien tarjetas de distinta altura.
+           Con flexbox, cada tarjeta se estira igual y las filas siempre quedan limpias. */
+        .dash-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .dash-row > [class*="col-"] {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .dash-row > [class*="col-"] > .panel {
+            width: 100%;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .dash-row .panel-footer {
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
    <?php include('navegacion.php');?>
@@ -64,11 +103,11 @@ $contados6 = mysqli_num_rows($resultado6);
                 <div class="row">
                     <div class="col-md-12 col-xs-12 col-lg-12">
                         <h3 class="page-header">
-                            <small><img src="images/logo.png"></small><B>  Administracion de Biblioteca</B> </h3>
+                            <small><img src="../images/home/escudo-boliviano-holandes.png" height="40"></small><B>  Administracion de Biblioteca</B> </h3>
                     </div>
                 </div>
                 <!-- /.inicio de fila row-->
-                <div class="row">
+                <div class="row dash-row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -143,6 +182,28 @@ $contados6 = mysqli_num_rows($resultado6);
                             </a>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-user-plus fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">Registro</div>
+                                        <div>Crear Acceso de Estudiante</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="registro_estudiantil.php">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Registrar Estudiante</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                       <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -192,7 +253,7 @@ $contados6 = mysqli_num_rows($resultado6);
                         </div>
                     </div>
                       <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-red">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
@@ -214,7 +275,7 @@ $contados6 = mysqli_num_rows($resultado6);
                         </div>
                     </div>
                      <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-red">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">

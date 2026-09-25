@@ -33,7 +33,7 @@ $nro_reg=mysqli_num_rows($consulta);
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">     
-	<link rel="shortcut icon" href="images/favicon-escudo.ico">
+    <link rel="shortcut icon" href="images/favicon-escudo.ico">
 </head>
 <body>
 <!--barra de correo, telefono y login-->
@@ -79,6 +79,7 @@ $nro_reg=mysqli_num_rows($consulta);
 </div> <!--fin de barra lateral izquierda-->
 			<div class="col-sm-9 padding-right">
 				<!--Contenido Central donde se muestran los libros-->
+				<!--Cuadros con los libros obtenidos de la base de datos-->
                 <div class="features_items">
 				<h2 class="title text-center">Listado de Libros</h2>
 			   <?php
@@ -92,6 +93,7 @@ $nro_reg=mysqli_num_rows($consulta);
          $query=mysqli_query($con,"select nombre, autor from libros order by nombre asc");
         }
 		if (mysqli_num_rows($query) < 1) {
+		//echo "<script>alert('No tenemos libros con esa categoria')</script>";
 		 echo "<div class='col-sm-3'>";  
 		 echo "<p style='color:red;'><b>No tenemos Libros para esta Categoria</b></p>"; 
 		 echo "</div>";   	
@@ -113,6 +115,7 @@ $nro_reg=mysqli_num_rows($consulta);
          <br>
 					<!--Tabs-->
 				 <div class="row">	<?php // include ('includes/tabs.php');?> </div>
+					<!--slider de abajo-->
 					<?php //include ('includes/sliderInferior.php');?> 
 					<?php //include ('includes/tabs.php');?> 					
 				</div>
@@ -121,6 +124,7 @@ $nro_reg=mysqli_num_rows($consulta);
 	</section>
 	<!--pie de pagina-->
 <?php include ('includes/footer.php');?>
+	 <!--Librerias de Jquery, Bootstrap y otras mas--> 
     <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.scrollUp.min.js"></script>

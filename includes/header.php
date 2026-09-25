@@ -1,4 +1,4 @@
-<?php
+	<?php
 //session_start();
 include("admin/conexion.php");
 $nombre = $_SESSION['usuario'];

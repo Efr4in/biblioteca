@@ -20,10 +20,10 @@ values('".$nombre."','".$alias."','".$pass."','".$email."','".$telefono."','".$d
 
 $res=mysqli_query($con,$sql);
 if($res){ 
-    echo '<script> alert("Gracias por inscribirte a nuestra pagina. \n Ya puedes ingresar con tus datos de acceso.");</script>';
-    echo '<script> window.location="../index.php"; </script>';
+    echo '<script> alert("Estudiante registrado correctamente. Ya puede ingresar con sus datos de acceso."); </script>';
+    echo '<script> window.location="../admin/registro_estudiantil.php"; </script>';
 }else {
-    echo '<script> alert("Lo sentimos no pudimos agregarte. Intentalo mas Tarde");</script>';
-    echo '<script> window.location="../index.php"; </script>';
+    echo '<script> alert("No se pudo registrar al estudiante. Verifica los datos e intenta de nuevo."); </script>';
+    echo '<script> window.location="../admin/registro_estudiantil.php"; </script>';
 }
 ?>
