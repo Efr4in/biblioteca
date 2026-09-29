@@ -68,6 +68,8 @@
                     <a href="/biblioteca/admin/inicio.php"><i class="fa fa-fw fa-home"></i> Inicio</a>
                 </li>
 
+                <li><a href="/biblioteca/admin/avisos.php"><i class="fa fa-fw fa-bullhorn"></i> Avisos</a></li>
+
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
                         <i class="fa fa-fw fa-book"></i> Libros<i class="fa fa-fw fa-caret-down"></i>
