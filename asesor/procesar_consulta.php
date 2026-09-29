@@ -18,6 +18,57 @@ if(empty($consulta)) {
     exit;
 }
 
+$consulta = trim($consulta);
+
+// Rechazar si quedó vacía después de quitar espacios (ej. el usuario solo puso espacios)
+if ($consulta === '') {
+    echo json_encode(['respuesta' => 'Por favor escribe algo antes de consultar.']);
+    exit;
+}
+
+// Rechazar si es muy corta para tener sentido, o absurdamente larga
+if (mb_strlen($consulta) < 3) {
+    echo json_encode(['respuesta' => 'Por favor escribe un poco más sobre lo que buscas.']);
+    exit;
+}
+if (mb_strlen($consulta) > 300) {
+    echo json_encode(['respuesta' => 'Tu consulta es demasiado larga, intenta resumirla.']);
+    exit;
+}
+
+// Permitir letras (con tildes y ñ), números, espacios y puntuación básica de una pregunta normal
+if (!preg_match('/^[\p{L}\p{N}\s¿?¡!.,:;\-\'"()]+$/u', $consulta)) {
+    echo json_encode(['respuesta' => 'Tu consulta tiene caracteres que no puedo procesar. Intenta escribirla solo con letras y signos de puntuación normales.']);
+    exit;
+}
+
+// Rechazar si es solo símbolos de puntuación repetidos, sin ninguna letra o número real
+if (!preg_match('/[\p{L}\p{N}]/u', $consulta)) {
+    echo json_encode(['respuesta' => 'No entendí tu consulta, intenta escribirla de nuevo.']);
+    exit;
+}
+
+// Detectar posible "manoteo" de teclado: muy pocas vocales, o rachas largas de consonantes
+$solo_letras = preg_replace('/[^\p{L}]/u', '', $consulta);
+if (mb_strlen($solo_letras) >= 5) {
+    $vocales = preg_match_all('/[aeiouáéíóúAEIOUÁÉÍÓÚ]/u', $solo_letras);
+    $ratio_vocales = $vocales / mb_strlen($solo_letras);
+    if ($ratio_vocales < 0.25 || preg_match('/[bcdfghjklmnñpqrstvwxyzBCDFGHJKLMNÑPQRSTVWXYZ]{5,}/u', $consulta)) {
+        echo json_encode(['respuesta' => 'No logré entender tu consulta, intenta escribirla de nuevo con palabras completas.']);
+        exit;
+    }
+}
+
+// Límite de consultas por sesión, para no agotar la cuota diaria de Gemini
+if (!isset($_SESSION['consultas_asesor'])) {
+    $_SESSION['consultas_asesor'] = 0;
+}
+if ($_SESSION['consultas_asesor'] >= 15) {
+    echo json_encode(['respuesta' => 'Alcanzaste el límite de consultas por ahora, intenta más tarde.']);
+    exit;
+}
+$_SESSION['consultas_asesor']++;
+
 // Obtener catálogo de libros desde la BD local (XAMPP)
 $catalogo = [];
 $query = mysqli_query($con, "SELECT id_libro, nombre, autor, descripcion, url_descarga FROM libros WHERE disponible = 'si'");
