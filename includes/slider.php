@@ -8,19 +8,32 @@ $total_avisos = count($avisos_lista);
 ?>
 <section id="slider"><!--slider-->
     <style>
+        #slider-carousel {
+            position: relative;
+            border: none;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            padding: 0 45px;
+            margin-top: 30px;
+        }
         #slider-carousel .item {
             min-height: 400px;
-            display: flex;
-            align-items: center;
+            padding-bottom: 25px;
         }
-        #slider-carousel .item > .col-sm-6:first-child {
+        #slider-carousel .item > .col-sm-6 {
             height: 340px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             overflow: hidden;
         }
+        #slider-carousel .item > .col-sm-6:last-child {
+            align-items: center;
+        }
         #slider-carousel .item h1 {
+            margin-top: 0;
             max-height: 96px;
             overflow: hidden;
             display: -webkit-box;
@@ -41,6 +54,70 @@ $total_avisos = count($avisos_lista);
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
         }
+        .aviso-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #064589;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            border: none;
+            padding: 0;
+            transition: background 0.2s ease;
+        }
+        .aviso-nav-btn:hover {
+            background: #043466;
+        }
+        .aviso-nav-prev {
+            left: 12px;
+        }
+        .aviso-nav-next {
+            right: 12px;
+        }
+        .aviso-nav-btn span {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-top: 3px solid #fff;
+            border-right: 3px solid #fff;
+        }
+        .aviso-nav-prev span {
+            transform: rotate(-135deg);
+            margin-left: 4px;
+        }
+        .aviso-nav-next span {
+            transform: rotate(45deg);
+            margin-right: 4px;
+        }
+        #slider-carousel .carousel-indicators {
+            bottom: 8px;
+        }
+        #slider-carousel .carousel-indicators li {
+            border-color: #064589;
+        }
+        #slider-carousel .carousel-indicators .active {
+            background-color: #064589;
+        }
+        @media (max-width: 767px) {
+            #slider-carousel {
+                padding: 0 40px;
+                margin-top: 20px;
+            }
+            .aviso-nav-btn {
+                width: 32px;
+                height: 32px;
+            }
+            #slider-carousel .item > .col-sm-6 {
+                height: auto;
+                max-height: 260px;
+            }
+        }
         #modalLeerMas .modal-header {
             background: #064589;
             color: #fff;
@@ -60,12 +137,6 @@ $total_avisos = count($avisos_lista);
             font-size: 16px;
             line-height: 1.6;
             white-space: pre-line;
-        }
-        @media (max-width: 767px) {
-            #slider-carousel .item > .col-sm-6:first-child {
-                height: auto;
-                max-height: 260px;
-            }
         }
     </style>
     <div class="container">
@@ -97,12 +168,12 @@ $total_avisos = count($avisos_lista);
                         <?php endforeach; ?>
                     </div>
 
-                    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+                    <button type="button" class="aviso-nav-btn aviso-nav-prev" data-slide="prev" data-target="#slider-carousel" aria-label="Anterior">
+                        <span></span>
+                    </button>
+                    <button type="button" class="aviso-nav-btn aviso-nav-next" data-slide="next" data-target="#slider-carousel" aria-label="Siguiente">
+                        <span></span>
+                    </button>
                 </div>
                 <?php endif; ?>
             </div>

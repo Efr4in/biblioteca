@@ -80,19 +80,98 @@ $nro_reg=mysqli_num_rows($consulta);
 			<div class="col-sm-9 padding-right">
 				<!--Contenido Central donde se muestran los libros-->
 				<!--Cuadros con los libros obtenidos de la base de datos-->
-                <div class="features_items">
+                <div class="features_items" id="listado-libros">
 				<h2 class="title text-center">Listado de Libros</h2>
+				<style>
+					.book-list {
+						list-style: none;
+						padding: 0;
+						margin: 20px 0;
+					}
+					.book-list-item {
+						display: flex;
+						align-items: baseline;
+						gap: 10px;
+						padding: 12px 16px;
+						margin-bottom: 8px;
+						background: #fff;
+						border-left: 4px solid #064589;
+						border-radius: 4px;
+						box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+						transition: transform 0.15s ease, box-shadow 0.15s ease;
+					}
+					.book-list-item:hover {
+						transform: translateX(4px);
+						box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+					}
+					.book-list-nombre {
+						font-weight: 700;
+						color: #222;
+						font-size: 15px;
+					}
+					.book-list-separador {
+						color: #999;
+						font-size: 13px;
+					}
+					.book-list-autor {
+						color: #666;
+						font-style: italic;
+						font-size: 14px;
+					}
+					.book-list-pagination {
+						display: flex;
+						justify-content: center;
+						gap: 6px;
+						margin: 20px 0;
+						flex-wrap: wrap;
+					}
+					.book-list-pagination a,
+					.book-list-pagination span {
+						display: inline-block;
+						min-width: 34px;
+						padding: 6px 10px;
+						text-align: center;
+						border-radius: 4px;
+						font-size: 14px;
+						text-decoration: none;
+					}
+					.book-list-pagination a {
+						background: #fff;
+						color: #064589;
+						border: 1px solid #ddd;
+					}
+					.book-list-pagination a:hover {
+						background: #eef3fa;
+						text-decoration: none;
+					}
+					.book-list-pagination .activo {
+						background: #064589;
+						color: #fff;
+						border: 1px solid #064589;
+					}
+				</style>
 			   <?php
 
-        if (isset($_GET['cat'])) {
-         $cat=$_GET['cat'];
-         $query=mysqli_query($con,"select nombre, autor from libros where id_categoria='$cat' order by nombre asc");
+        $por_pagina = 10;
+        $pagina_actual = isset($_GET['pagina']) ? max(1, (int)$_GET['pagina']) : 1;
+        $offset = ($pagina_actual - 1) * $por_pagina;
+        $cat_actual = isset($_GET['cat']) ? (int)$_GET['cat'] : null;
+
+        if ($cat_actual !== null) {
+         $conteo_query = mysqli_query($con, "select count(*) as total from libros where id_categoria='$cat_actual'");
+         $query = mysqli_query($con, "select nombre, autor from libros where id_categoria='$cat_actual' order by nombre asc limit $offset, $por_pagina");
         }
         else{
          // Sin categoria seleccionada: listado completo, alfabetico por nombre
-         $query=mysqli_query($con,"select nombre, autor from libros order by nombre asc");
+         $conteo_query = mysqli_query($con, "select count(*) as total from libros");
+         $query = mysqli_query($con, "select nombre, autor from libros order by nombre asc limit $offset, $por_pagina");
         }
-		if (mysqli_num_rows($query) < 1) {
+
+        $conteo_row = mysqli_fetch_array($conteo_query);
+        $total_libros = $conteo_row['total'];
+        $total_paginas = ceil($total_libros / $por_pagina);
+
+		if ($total_libros < 1) {
 		//echo "<script>alert('No tenemos libros con esa categoria')</script>";
 		 echo "<div class='col-sm-3'>";  
 		 echo "<p style='color:red;'><b>No tenemos Libros para esta Categoria</b></p>"; 
@@ -108,10 +187,26 @@ $nro_reg=mysqli_num_rows($consulta);
 
             <li class="book-list-item">
                 <span class="book-list-nombre"><?php echo $nombre ?></span>
+                <span class="book-list-separador">por</span>
                 <span class="book-list-autor"><?php echo $autor ?></span>
             </li>
 
-         <?php } echo "</ul>"; } ?>
+         <?php }
+         echo "</ul>";
+
+         if ($total_paginas > 1) {
+            echo "<div class='book-list-pagination'>";
+            for ($p = 1; $p <= $total_paginas; $p++) {
+                $url = "inicio.php?pagina=" . $p . ($cat_actual !== null ? "&cat=" . $cat_actual : "") . "#listado-libros";
+                if ($p == $pagina_actual) {
+                    echo "<span class='activo'>" . $p . "</span>";
+                } else {
+                    echo "<a href='" . $url . "'>" . $p . "</a>";
+                }
+            }
+            echo "</div>";
+         }
+         } ?>
          <br>
 					<!--Tabs-->
 				 <div class="row">	<?php // include ('includes/tabs.php');?> </div>

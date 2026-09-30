@@ -3,11 +3,11 @@ include('../conexion.php');
 
 $id = $_POST['id-prod'];
 $proceso = $_POST['pro'];
-$titulo = $_POST['titulo'];
-$subtitulo = $_POST['subtitulo'];
-$contenido = $_POST['contenido'];
-$orden = $_POST['orden'];
-$activo = $_POST['activo'];
+$titulo = mysqli_real_escape_string($con, $_POST['titulo']);
+$subtitulo = mysqli_real_escape_string($con, $_POST['subtitulo']);
+$contenido = mysqli_real_escape_string($con, $_POST['contenido']);
+$orden = mysqli_real_escape_string($con, $_POST['orden']);
+$activo = mysqli_real_escape_string($con, $_POST['activo']);
 $fecha = date("Y-m-d");
 
 // Procesamiento de imagen
@@ -19,7 +19,7 @@ if(isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0 && !empty($_FILE
 
     if(in_array($extension, $extensionesPermitidas)) {
         $nuevoNombre = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $_FILES['imagen']['name']);
-        $rutaDestino = __DIR__ . '/../images/avisos/' . $nuevoNombre;
+        $rutaDestino = __DIR__ . '/../../images/avisos/' . $nuevoNombre;
 
         if(move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
             $imagen = 'images/avisos/' . $nuevoNombre;
