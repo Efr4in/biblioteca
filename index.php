@@ -157,6 +157,35 @@
                 font-size: 12px;
                 color: #999;
             }
+
+            /* Aviso de datos incorrectos */
+            .login-alert {
+                display: none;
+                background: #FBEAEA;
+                border-left: 4px solid #C81C28;
+                color: #9c1520;
+                font-size: 13px;
+                padding: 10px 14px;
+                border-radius: 4px;
+                margin-bottom: 18px;
+                animation: fadeUp 300ms ease;
+            }
+            .login-alert.show {
+                display: block;
+            }
+            .login-alert i {
+                margin-right: 6px;
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%      { transform: translateX(-10px); }
+                40%      { transform: translateX(9px); }
+                60%      { transform: translateX(-6px); }
+                80%      { transform: translateX(4px); }
+            }
+            .login-card.shake {
+                animation: shake 450ms ease;
+            }
         </style>
     </head>
     <body>
@@ -178,6 +207,9 @@
                 </div>
             </div>
             <div class="login-card-body">
+                <div class="login-alert" id="loginAlert" role="alert">
+                    <i class="fa fa-exclamation-circle"></i> Usuario o contraseña incorrectos.
+                </div>
                 <form role="form" action="login/validarUsuario.php" method="post" class="login-form" id="loginForm">
                     <div class="form-group">
                         <label class="sr-only" for="form-username">Usuario</label>
@@ -199,6 +231,15 @@
         <script>
             var modoActual = 'estudiante';
 
+            // Quita el aviso de error y el borde rojo de los campos
+            function limpiarError() {
+                document.getElementById('loginAlert').classList.remove('show');
+                var campos = document.querySelectorAll('#loginForm .form-control');
+                for (var i = 0; i < campos.length; i++) {
+                    campos[i].classList.remove('input-error');
+                }
+            }
+
             function cambiarModo(modo, animar) {
                 if (modo === modoActual) return;
                 modoActual = modo;
@@ -206,6 +247,7 @@
 
                 var card = document.getElementById('loginCard');
                 var aplicarCambios = function () {
+                    limpiarError();
                     var header = document.getElementById('cardHeader');
                     var switchEl = document.getElementById('modeSwitch');
                     var titulo = document.getElementById('cardTitle');
@@ -254,6 +296,24 @@
                 var params = new URLSearchParams(window.location.search);
                 if (params.get('modo') === 'admin') {
                     cambiarModo('admin', false);
+                }
+
+                // Si volvemos de un intento fallido (?error=1), mostramos el aviso
+                if (params.get('error') === '1') {
+                    document.getElementById('loginAlert').classList.add('show');
+                    var campos = document.querySelectorAll('#loginForm .form-control');
+                    for (var i = 0; i < campos.length; i++) {
+                        campos[i].classList.add('input-error');
+                        campos[i].addEventListener('input', limpiarError);
+                    }
+                    var card = document.getElementById('loginCard');
+                    card.classList.add('shake');
+                    setTimeout(function () { card.classList.remove('shake'); }, 500);
+                    document.getElementById('form-username').focus();
+
+                    // Limpiamos la URL para que al recargar no reaparezca el aviso
+                    var limpia = window.location.pathname + (params.get('modo') === 'admin' ? '?modo=admin' : '');
+                    window.history.replaceState(null, '', limpia);
                 }
             })();
         </script>

@@ -76,6 +76,9 @@ while($row = mysqli_fetch_assoc($query)) {
     $catalogo[] = $row;
 }
 
+// Puede tardar si hay que reintentar, así que damos más margen de tiempo al script
+set_time_limit(120);
+
 // Llamada a n8n — enviamos consulta + catálogo
 $webhook_url = 'https://biblio.app.n8n.cloud/webhook/asesor-ia';
 $data = json_encode([
@@ -83,22 +86,56 @@ $data = json_encode([
     'catalogo' => $catalogo
 ]);
 
-$ch = curl_init($webhook_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+// Hace una llamada a n8n y dice si la respuesta es válida (trae el campo "respuesta")
+function llamar_asesor($url, $data) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 45);
+    $response = curl_exec($ch);
+    $http  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
+    curl_close($ch);
 
-$response = curl_exec($ch);
-curl_close($ch);
-file_put_contents('debug.txt', $response);
+    $decoded = is_string($response) ? json_decode($response, true) : null;
+    $ok = is_array($decoded) && !empty($decoded['respuesta']);
 
-$resultado = json_decode($response, true);
+    return [$ok, $decoded, $response, $http, $error];
+}
+
+// Hasta 2 intentos: a veces el primero falla (n8n frío o Gemini ocupado) y el segundo responde bien
+$resultado = null;
+$ok = false;
+$registro = '';
+for ($intento = 1; $intento <= 2; $intento++) {
+    list($ok, $resultado, $response, $http, $error) = llamar_asesor($webhook_url, $data);
+
+    $registro .= date('Y-m-d H:i:s') . " | intento $intento | HTTP $http | curl: " . ($error !== '' ? $error : 'sin error')
+               . " | " . ($ok ? 'OK' : 'FALLO') . " | " . (is_string($response) ? $response : '(sin respuesta)') . "\n";
+
+    if ($ok) break;
+    if ($intento < 2) sleep(2);
+}
+file_put_contents(__DIR__ . '/debug.txt', $registro);
+
+// Si tras los reintentos no hubo respuesta válida: avisamos, SIN sugerir ningún libro
+if (!$ok) {
+    $_SESSION['consultas_asesor']--; // un fallo no debe gastar una consulta del límite
+    echo json_encode([
+        'respuesta'   => 'El asesor no pudo responder en este momento. Por favor intenta de nuevo en unos segundos.',
+        'libro'       => null,
+        'es_compleja' => false,
+        'paginas'     => ''
+    ]);
+    exit;
+}
 
 // Extraer campos
-$respuesta_texto = isset($resultado['respuesta']) ? $resultado['respuesta'] : 'No se pudo obtener una recomendación.';
-$libro_nombre    = isset($resultado['libro_nombre']) ? $resultado['libro_nombre'] : '';
+$respuesta_texto = $resultado['respuesta'];
+$libro_nombre    = isset($resultado['libro_nombre']) ? trim($resultado['libro_nombre']) : '';
 $es_compleja     = isset($resultado['es_compleja']) ? $resultado['es_compleja'] : false;
 $paginas_raw     = isset($resultado['paginas']) ? $resultado['paginas'] : '';
 
@@ -123,27 +160,50 @@ function normalizar($texto) {
     return str_replace($from, $to, $texto);
 }
 
-// Buscar el libro en la BD por coincidencia flexible
+// Buscar el libro en la BD por coincidencia flexible.
+// Solo se busca si la IA realmente nombró un libro; si no, NO se muestra ninguno.
 $libro = null;
-$todos = mysqli_query($con, "SELECT id_libro, nombre, foto, url_descarga FROM libros WHERE disponible = 'si'");
 $nombre_ia_norm = normalizar($libro_nombre);
-$palabras_clave = array_filter(explode(' ', $nombre_ia_norm), function($p) { return strlen($p) > 3; });
 
-while($row = mysqli_fetch_assoc($todos)) {
-    $nombre_bd_norm = normalizar($row['nombre']);
+if ($nombre_ia_norm !== '') {
+    $libros_bd = [];
+    $todos = mysqli_query($con, "SELECT id_libro, nombre, foto, url_descarga FROM libros WHERE disponible = 'si'");
+    while($row = mysqli_fetch_assoc($todos)) {
+        $libros_bd[] = $row;
+    }
     $respuesta_norm = normalizar($respuesta_texto);
 
-    if(strpos($nombre_bd_norm, $nombre_ia_norm) !== false ||
-       strpos($nombre_ia_norm, $nombre_bd_norm) !== false) {
-        $libro = $row; break;
-    }
-    foreach($palabras_clave as $palabra) {
-        if(strpos($nombre_bd_norm, $palabra) !== false) {
-            $libro = $row; break 2;
+    // 1) El nombre coincide (o está contenido) con el de un libro del catálogo
+    foreach ($libros_bd as $row) {
+        $nombre_bd_norm = normalizar($row['nombre']);
+        if ($nombre_bd_norm === '') continue;
+        if (strpos($nombre_bd_norm, $nombre_ia_norm) !== false ||
+            strpos($nombre_ia_norm, $nombre_bd_norm) !== false) {
+            $libro = $row; break;
         }
     }
-    if(strpos($respuesta_norm, normalizar($row['nombre'])) !== false) {
-        $libro = $row; break;
+
+    // 2) El texto de la recomendación menciona el nombre de un libro del catálogo
+    if ($libro === null) {
+        foreach ($libros_bd as $row) {
+            $nombre_bd_norm = normalizar($row['nombre']);
+            if ($nombre_bd_norm !== '' && strpos($respuesta_norm, $nombre_bd_norm) !== false) {
+                $libro = $row; break;
+            }
+        }
+    }
+
+    // 3) Último recurso: alguna palabra clave del nombre que dio la IA
+    if ($libro === null) {
+        $palabras_clave = array_filter(explode(' ', $nombre_ia_norm), function($p) { return strlen($p) > 3; });
+        foreach ($libros_bd as $row) {
+            $nombre_bd_norm = normalizar($row['nombre']);
+            foreach ($palabras_clave as $palabra) {
+                if (strpos($nombre_bd_norm, $palabra) !== false) {
+                    $libro = $row; break 2;
+                }
+            }
+        }
     }
 }
 

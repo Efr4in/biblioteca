@@ -1,4 +1,4 @@
-	<?php
+<?php
 //session_start();
 include("admin/conexion.php");
 $nombre = $_SESSION['usuario'];
@@ -51,7 +51,6 @@ $nombre = $_SESSION['usuario'];
 								<li>
                             <a href="#" target="contenedor"><i class="fa fa-fw fa-user"></i>Usuario:<b style="color:green;"> <?php  echo $nombre; ?></b></a>
                         </li>
-							    <li><a href="login/login.php"><i class="fa fa-lock"></i> Administracion</a></li>
 							    <li><a href="login/logout2.php"><i class="fa fa-power-off"></i> Salir</a></li>
 							</ul>
 						</div>

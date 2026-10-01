@@ -5,15 +5,15 @@ if(isset($_SESSION['usuario'])) {
 
 $consulta=mysqli_query($con, "select * from libros limit 0,6");
 $nro_reg=mysqli_num_rows($consulta);
-    if ($nro_reg==0){
-        echo 'No Tienes Productos en la Base de Datos';
-    }
-    $result=mysqli_query($con, "SELECT count(utc) as visitas from visitas");
-    $row = mysqli_fetch_array($result);
-    $numero_visitas = $row["visitas"];
-    $result2=mysqli_query($con, "SELECT count(utc) as visitas from visitas WHERE fecha_visita = CURDATE()");
-    $row2 = mysqli_fetch_array($result2);
-    $visitas_hoy = $row2["visitas"];
+if ($nro_reg==0){
+    echo 'No Tienes Productos en la Base de Datos';
+}
+$result=mysqli_query($con, "SELECT count(utc) as visitas from visitas");
+$row = mysqli_fetch_array($result);
+$numero_visitas = $row["visitas"];
+$result2=mysqli_query($con, "SELECT count(utc) as visitas from visitas WHERE fecha_visita = CURDATE()");
+$row2 = mysqli_fetch_array($result2);
+$visitas_hoy = $row2["visitas"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,88 +84,193 @@ $nro_reg=mysqli_num_rows($consulta);
             font-size: 13px;
         }
         /* ===== FIN FIX ESTÉTICO ===== */
+
+        /* ===== PAGINACIÓN ===== */
+        .book-list-pagination {
+            clear: both;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .book-list-pagination a,
+        .book-list-pagination span {
+            display: inline-block;
+            min-width: 34px;
+            padding: 6px 10px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .book-list-pagination a {
+            background: #fff;
+            color: #064589;
+            border: 1px solid #ddd;
+        }
+        .book-list-pagination a:hover {
+            background: #eef3fa;
+            text-decoration: none;
+        }
+        .book-list-pagination .activo {
+            background: #064589;
+            color: #fff;
+            border: 1px solid #064589;
+        }
+        /* ===== FIN PAGINACIÓN ===== */
     </style>
 </head>
 <body>
-    <?php include('includes/header.php'); ?>
+<?php include('includes/header.php'); ?>
 
-    <section>
-        <div class="container">
-            <div class="row">
-                <br>
-                <div class="col-md-3">
-                    <form name="busqueda" method="get" action="busqueda.php">
-                        <div class="search_box pull-right">
-                            <input type="text" placeholder="Buscar" name="buscar" required="true"/>
-                        </div>
-                </div>
-                <div class="col-md-1">
-                    <input type="submit" name="enviar" value="Buscar Libro" class="btn btn-success">
-                </div>
-                    </form>
-                <div class="col-md-2">
-                    <a href="busqueda.php"><button class="btn btn-danger">Ver Todos</button></a>
-                </div>
+<section>
+    <div class="container">
+        <div class="row">
+            <br>
+            <div class="col-md-3">
+                <form name="busqueda" method="get" action="busqueda.php">
+                    <div class="search_box pull-right">
+                        <input type="text" placeholder="Buscar" name="buscar" required="true"/>
+                    </div>
             </div>
+            <div class="col-md-1">
+                    <input type="submit" name="enviar" value="Buscar Libro" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-md-2">
+                <a href="busqueda.php"><button class="btn btn-danger">Ver Todos</button></a>
+            </div>
+        </div>
 
-            <div class="features_items">
-                <br><br>
+        <div class="features_items">
+            <br><br>
 
-                <!-- PESTAÑAS -->
-                <ul class="nav nav-tabs" style="margin-bottom:20px;">
-                    <li class="active"><a href="#catalogo" data-toggle="tab"><i class="fa fa-book"></i> Catálogo</a></li>
-                    <li><a href="#asesor" data-toggle="tab"><i class="fa fa-lightbulb-o"></i> Asesor IA</a></li>
-                </ul>
+            <!-- PESTAÑAS -->
+            <ul class="nav nav-tabs" style="margin-bottom:20px;">
+                <li class="active"><a href="#catalogo" data-toggle="tab"><i class="fa fa-book"></i> Catálogo</a></li>
+                <li><a href="#asesor" data-toggle="tab"><i class="fa fa-lightbulb-o"></i> Asesor IA</a></li>
+            </ul>
 
-                <div class="tab-content">
+            <div class="tab-content">
 
-                    <!-- TAB CATALOGO -->
-                    <div class="tab-pane active" id="catalogo">
-                        <h2 class="title text-center">Listado de Libros</h2>
-                        <?php
-                        if (isset($_GET['enviar'])) {
-                            $busqueda = $_GET['buscar'];
-                            $query = mysqli_query($con, "SELECT * FROM libros WHERE nombre LIKE '%$busqueda%' AND disponible='si'");
-                            if (mysqli_num_rows($query) < 1) {
-                                echo "<div class='col-sm-12'><p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p></div>";
-                            } else {
-                                while($row = mysqli_fetch_array($query)) { ?>
-                                    <div class="col-sm-4 libro-card">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
-                                                    <p><?php echo $row['nombre'] ?></p>
-                                                </div>
-                                                <div class="product-overlay">
-                                                    <div class="overlay-content">
-                                                        <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
-                                                        <p><?php echo $row['nombre'] ?></p>
-                                                        <a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro'] ?>" class="btn btn-default add-to-cart">
-                                                            <i class="fa fa-download"></i> Ver
-                                                        </a>
-                                                    </div>
-                                                </div>
+                <!-- TAB CATALOGO -->
+                <div class="tab-pane active" id="catalogo">
+                    <h2 class="title text-center" id="listado-catalogo">Listado de Libros</h2>
+
+                    <?php
+                    $por_pagina = 12;
+                    $pagina_actual = isset($_GET['pagina']) ? max(1, (int)$_GET['pagina']) : 1;
+
+                    // Filtro base + búsqueda opcional
+                    $filtro = "disponible='si'";
+                    $parametros_url = '';
+
+                    if (isset($_GET['enviar']) && isset($_GET['buscar'])) {
+                        $busqueda = mysqli_real_escape_string($con, $_GET['buscar']);
+                        $filtro .= " AND nombre LIKE '%$busqueda%'";
+                        $parametros_url = "&buscar=" . urlencode($_GET['buscar']) . "&enviar=1";
+                    }
+
+                    // Total de libros para saber cuántas páginas hay
+                    $conteo_query = mysqli_query($con, "SELECT COUNT(*) AS total FROM libros WHERE $filtro");
+                    $conteo_row = mysqli_fetch_array($conteo_query);
+                    $total_libros = (int)$conteo_row['total'];
+                    $total_paginas = (int)ceil($total_libros / $por_pagina);
+
+                    // Si piden una página que no existe, ir a la última
+                    if ($total_paginas > 0 && $pagina_actual > $total_paginas) {
+                        $pagina_actual = $total_paginas;
+                    }
+                    $offset = ($pagina_actual - 1) * $por_pagina;
+
+                    if ($total_libros < 1) {
+                        echo "<div class='col-sm-12'><p style='color:red;'><b>No tenemos libros que coincidan con este nombre</b></p></div>";
+                    } else {
+                        $query = mysqli_query($con, "SELECT * FROM libros WHERE $filtro ORDER BY nombre ASC LIMIT $offset, $por_pagina");
+
+                        while($row = mysqli_fetch_array($query)) { ?>
+                            <div class="col-sm-4 libro-card">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
+                                            <p><?php echo $row['nombre'] ?></p>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
+                                                <p><?php echo $row['nombre'] ?></p>
+                                                <a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro'] ?>" class="btn btn-default add-to-cart">
+                                                    <i class="fa fa-download"></i> Ver
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-                                <?php }
+                                </div>
+                            </div>
+                        <?php }
+
+                        // Números de página
+                        if ($total_paginas > 1) {
+                            echo "<div class='book-list-pagination'>";
+                            for ($p = 1; $p <= $total_paginas; $p++) {
+                                $url = "busqueda.php?pagina=" . $p . $parametros_url . "#listado-catalogo";
+                                if ($p == $pagina_actual) {
+                                    echo "<span class='activo'>" . $p . "</span>";
+                                } else {
+                                    echo "<a href='" . $url . "'>" . $p . "</a>";
+                                }
                             }
-                        } else {
-                            $query = mysqli_query($con, "SELECT * FROM libros WHERE disponible='si'");
-                            while($row = mysqli_fetch_array($query)) { ?>
-                                <div class="col-sm-4 libro-card">
-                                    <div class="product-image-wrapper">
+                            echo "</div>";
+                        }
+                    } ?>
+                </div>
+                <!-- FIN TAB CATALOGO -->
+
+                <!-- TAB ASESOR IA -->
+                <div class="tab-pane" id="asesor">
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:20px; margin-bottom:40px;">
+                        <h3><i class="fa fa-lightbulb-o"></i> Asesor Inteligente de Biblioteca</h3>
+                        <p>Escribe lo que necesitas aprender y el asesor te recomendará el libro ideal de nuestro catálogo.</p>
+
+                        <div class="form-group">
+                            <input type="text" id="consultaAsesor" class="form-control"
+                                   placeholder="Ej: quiero aprender matemáticas..."
+                                   style="border-radius:10px; padding:10px; font-size:15px;">
+                        </div>
+                        <button onclick="consultarAsesor()" class="btn btn-primary">
+                            <i class="fa fa-search"></i> Consultar Asesor
+                        </button>
+
+                        <div id="cargando" style="display:none; margin-top:20px; font-size:15px;">
+                            <i class="fa fa-spinner fa-spin"></i> Consultando asesor inteligente...
+                        </div>
+
+                        <div id="respuesta" style="display:none; margin-top:20px;">
+                            <div class="row">
+
+                                <!-- Columna texto -->
+                                <div id="colTexto" class="col-md-12">
+                                    <div style="padding:20px; background:#f9f9f9; border-radius:10px; border-left:4px solid #2E75B6;">
+                                        <h4><i class="fa fa-comment"></i> Recomendación:</h4>
+                                        <p id="textoRespuesta" style="font-size:15px; line-height:1.6;"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Columna tarjeta libro -->
+                                <div id="colLibro" class="col-md-4" style="display:none; margin-top:0;">
+                                    <div class="product-image-wrapper" style="max-width:180px; margin:0 auto;">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
-                                                <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
-                                                <p><?php echo $row['nombre'] ?></p>
+                                                <img id="libroFoto" src="" style="width:130px; height:180px; object-fit:cover; border-radius:4px;">
+                                                <p id="libroNombre" style="font-size:12px; margin:5px 0;"></p>
                                             </div>
                                             <div class="product-overlay">
                                                 <div class="overlay-content">
-                                                    <img src="admin/<?php echo $row['foto'] ?>" alt="<?php echo $row['nombre'] ?>">
-                                                    <p><?php echo $row['nombre'] ?></p>
-                                                    <a href="admin/pdf/archivo.php?id=<?php echo $row['id_libro'] ?>" class="btn btn-default add-to-cart">
+                                                    <img id="libroFotoOverlay" src="" style="width:120px; height:160px; object-fit:cover;">
+                                                    <p id="libroNombreOverlay" style="font-size:12px;"></p>
+                                                    <a id="libroLink" href="#" class="btn btn-default add-to-cart btn-xs">
                                                         <i class="fa fa-download"></i> Ver
                                                     </a>
                                                 </div>
@@ -173,147 +278,96 @@ $nro_reg=mysqli_num_rows($consulta);
                                         </div>
                                     </div>
                                 </div>
-                            <?php }
-                        } ?>
-                    </div>
-                    <!-- FIN TAB CATALOGO -->
 
-                    <!-- TAB ASESOR IA -->
-                    <div class="tab-pane" id="asesor">
-                        <div class="col-md-10 col-md-offset-1" style="margin-top:20px; margin-bottom:40px;">
-                            <h3><i class="fa fa-lightbulb-o"></i> Asesor Inteligente de Biblioteca</h3>
-                            <p>Escribe lo que necesitas aprender y el asesor te recomendará el libro ideal de nuestro catálogo.</p>
-                            <div class="form-group">
-                                <input type="text" id="consultaAsesor" class="form-control"
-                                    placeholder="Ej: quiero aprender matemáticas..."
-                                    style="border-radius:10px; padding:10px; font-size:15px;">
-                            </div>
-                            <button onclick="consultarAsesor()" class="btn btn-primary">
-                                <i class="fa fa-search"></i> Consultar Asesor
-                            </button>
-
-                            <div id="cargando" style="display:none; margin-top:20px; font-size:15px;">
-                                <i class="fa fa-spinner fa-spin"></i> Consultando asesor inteligente...
                             </div>
 
-                            <div id="respuesta" style="display:none; margin-top:20px;">
-                                <div class="row">
-                                    <!-- Columna texto -->
-                                    <div id="colTexto" class="col-md-12">
-                                        <div style="padding:20px; background:#f9f9f9; border-radius:10px; border-left:4px solid #2E75B6;">
-                                            <h4><i class="fa fa-comment"></i> Recomendación:</h4>
-                                            <p id="textoRespuesta" style="font-size:15px; line-height:1.6;"></p>
-                                        </div>
-                                    </div>
-                                    <!-- Columna tarjeta libro -->
-                                    <div id="colLibro" class="col-md-4" style="display:none; margin-top:0;">
-                                        <div class="product-image-wrapper" style="max-width:180px; margin:0 auto;">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img id="libroFoto" src="" style="width:130px; height:180px; object-fit:cover; border-radius:4px;">
-                                                    <p id="libroNombre" style="font-size:12px; margin:5px 0;"></p>
-                                                </div>
-                                                <div class="product-overlay">
-                                                    <div class="overlay-content">
-                                                        <img id="libroFotoOverlay" src="" style="width:120px; height:160px; object-fit:cover;">
-                                                        <p id="libroNombreOverlay" style="font-size:12px;"></p>
-                                                        <a id="libroLink" href="#" class="btn btn-default add-to-cart btn-xs">
-                                                            <i class="fa fa-download"></i> Ver
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Bloque de páginas (solo consultas complejas) -->
-                                <div id="bloquePaginas" style="display:none; margin-top:15px;
-                                    padding:15px; background:#eaf4ff;
-                                    border-left:4px solid #1a6fbf; border-radius:8px;">
-                                    <h5 style="color:#1a6fbf; margin:0 0 8px 0;">
-                                        <i class="fa fa-file-text-o"></i> Páginas relevantes en el libro:
-                                    </h5>
-                                    <p id="textoPaginas" style="margin:0;"></p>
-                                </div>
+                            <!-- Bloque de páginas (solo consultas complejas) -->
+                            <div id="bloquePaginas" style="display:none; margin-top:15px;
+                                 padding:15px; background:#eaf4ff;
+                                 border-left:4px solid #1a6fbf; border-radius:8px;">
+                                <h5 style="color:#1a6fbf; margin:0 0 8px 0;">
+                                    <i class="fa fa-file-text-o"></i> Páginas relevantes en el libro:
+                                </h5>
+                                <p id="textoPaginas" style="margin:0;"></p>
                             </div>
                         </div>
                     </div>
-                    <!-- FIN TAB ASESOR IA -->
-
                 </div>
+                <!-- FIN TAB ASESOR IA -->
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <?php include('includes/footer.php'); ?>
+<?php include('includes/footer.php'); ?>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <script src="js/price-range.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollUp.min.js"></script>
+<script src="js/price-range.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/main.js"></script>
 
-    <script>
-    function consultarAsesor() {
-        var consulta = document.getElementById('consultaAsesor').value;
-        if(consulta.trim() === '') {
-            alert('Por favor escribe una consulta.');
-            return;
-        }
-
-        document.getElementById('cargando').style.display = 'block';
-        document.getElementById('respuesta').style.display = 'none';
-        document.getElementById('bloquePaginas').style.display = 'none';
-
-        fetch('asesor/procesar_consulta.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ consulta: consulta })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('cargando').style.display = 'none';
-            document.getElementById('textoRespuesta').innerText = data.respuesta;
-
-            if(data.libro) {
-                var foto   = 'admin/' + data.libro.foto;
-                var nombre = data.libro.nombre;
-                var id     = data.libro.id_libro;
-
-                document.getElementById('libroFoto').src                = foto;
-                document.getElementById('libroFotoOverlay').src         = foto;
-                document.getElementById('libroNombre').innerText        = nombre;
-                document.getElementById('libroNombreOverlay').innerText = nombre;
-                document.getElementById('libroLink').href               = 'admin/pdf/archivo.php?id=' + id;
-
-                document.getElementById('colTexto').className     = 'col-md-8';
-                document.getElementById('colLibro').style.display = 'block';
-            } else {
-                document.getElementById('colTexto').className     = 'col-md-12';
-                document.getElementById('colLibro').style.display = 'none';
-            }
-
-            if(data.es_compleja && data.paginas && data.paginas.trim() !== '') {
-                document.getElementById('textoPaginas').innerText       = data.paginas;
-                document.getElementById('bloquePaginas').style.display = 'block';
-            } else {
-                document.getElementById('bloquePaginas').style.display = 'none';
-            }
-
-            document.getElementById('respuesta').style.display = 'block';
-        })
-        .catch(error => {
-            document.getElementById('cargando').style.display = 'none';
-            alert('Error al consultar el asesor. Intenta de nuevo.');
-        });
+<script>
+function consultarAsesor() {
+    var consulta = document.getElementById('consultaAsesor').value;
+    if(consulta.trim() === '') {
+        alert('Por favor escribe una consulta.');
+        return;
     }
 
-    document.getElementById('consultaAsesor').addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') consultarAsesor();
+    document.getElementById('cargando').style.display = 'block';
+    document.getElementById('respuesta').style.display = 'none';
+    document.getElementById('bloquePaginas').style.display = 'none';
+
+    fetch('asesor/procesar_consulta.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consulta: consulta })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('cargando').style.display = 'none';
+        document.getElementById('textoRespuesta').innerText = data.respuesta;
+
+        if(data.libro) {
+            var foto = 'admin/' + data.libro.foto;
+            var nombre = data.libro.nombre;
+            var id = data.libro.id_libro;
+
+            document.getElementById('libroFoto').src = foto;
+            document.getElementById('libroFotoOverlay').src = foto;
+            document.getElementById('libroNombre').innerText = nombre;
+            document.getElementById('libroNombreOverlay').innerText = nombre;
+            document.getElementById('libroLink').href = 'admin/pdf/archivo.php?id=' + id;
+
+            document.getElementById('colTexto').className = 'col-md-8';
+            document.getElementById('colLibro').style.display = 'block';
+        } else {
+            document.getElementById('colTexto').className = 'col-md-12';
+            document.getElementById('colLibro').style.display = 'none';
+        }
+
+        if(data.es_compleja && data.paginas && data.paginas.trim() !== '') {
+            document.getElementById('textoPaginas').innerText = data.paginas;
+            document.getElementById('bloquePaginas').style.display = 'block';
+        } else {
+            document.getElementById('bloquePaginas').style.display = 'none';
+        }
+
+        document.getElementById('respuesta').style.display = 'block';
+    })
+    .catch(error => {
+        document.getElementById('cargando').style.display = 'none';
+        alert('Error al consultar el asesor. Intenta de nuevo.');
     });
-    </script>
+}
+
+document.getElementById('consultaAsesor').addEventListener('keypress', function(e) {
+    if(e.key === 'Enter') consultarAsesor();
+});
+</script>
 
 </body>
 </html>
