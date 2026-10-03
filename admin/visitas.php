@@ -38,7 +38,7 @@ if(isset($_SESSION['user']))
                 <div class="row">
                     <div class="col-lg-12">
                         <h2 class="page-header">
-                            <small><img src="images/logo.png"></small>Visitas de la Tienda
+                            <small><img src="images/logo.png"></small>Visitas de la Biblioteca
                         </h2>
                     </div>
                 </div>
